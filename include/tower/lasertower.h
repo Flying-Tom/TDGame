@@ -1,26 +1,28 @@
-#ifndef LASERTOWER_H
-#define LASERTOWER_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_LASERTOWER_H_
+#define INCLUDE_TOWER_LASERTOWER_H_
 
-#include "tower.h"
 #include <bullet/laser.h>
 
+#include <tower/tower.h>
+
 class LaserTower : public Tower {
-public:
-    LaserTower(Map* map);
-    ~LaserTower();
-    QRectF boundingRect() const override;
+ public:
+  explicit LaserTower(GameMap* map);
+  ~LaserTower();
+  QRectF boundingRect() const override;
 
-    void attack() override;
+  void attack() override;
 
-    Laser* getTrajectory() const;
-    void setTrajectory(Laser* newTrajectory);
+  Laser* getTrajectory() const;
+  void setTrajectory(Laser* newTrajectory);
 
-protected:
-    int prevAngle;
-    Laser* trajectory;
+ protected:
+  int prevAngle;
+  Laser* trajectory;
 
-public:
-    void aquireTarget() override;
+ public:
+  void aquireTarget() override;
 };
 
-#endif // LASERTOWER_H
+#endif  // INCLUDE_TOWER_LASERTOWER_H_

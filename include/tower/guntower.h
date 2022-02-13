@@ -1,17 +1,18 @@
-#ifndef GUNTOWER_H
-#define GUNTOWER_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_GUNTOWER_H_
+#define INCLUDE_TOWER_GUNTOWER_H_
 
-#include "tower.h"
 #include <bullet/gunbullet.h>
+#include <tower/tower.h>
 
 class GunTower : public Tower {
-public:
-    GunTower(Map* map);
-    ~GunTower();
-    QRectF boundingRect() const override;
+ public:
+  explicit GunTower(GameMap* map);
+  ~GunTower();
+  QRectF boundingRect() const override;
 
-public:
-    void attack() override;
+ public:
+  void attack() override;
 };
 
-#endif // GUNTOWER_H
+#endif  // INCLUDE_TOWER_GUNTOWER_H_

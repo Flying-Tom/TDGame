@@ -1,30 +1,31 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_MAINWINDOW_H_
+#define INCLUDE_MAINWINDOW_H_
 
 #include <common.h>
 #include <game.h>
 
 class MainWindow : public QMainWindow {
-    Q_OBJECT
-public:
-    explicit MainWindow(QWidget* parent = nullptr);
-    void keyPressEvent(QKeyEvent* event) override;
-    void paintEvent(QPaintEvent* e) override;
+  Q_OBJECT
+ public:
+  explicit MainWindow(QWidget* parent = nullptr);
+  void keyPressEvent(QKeyEvent* event) override;
+  void paintEvent(QPaintEvent* e) override;
 
-    Game* getGame() const;
-    void setGame(Game* newGame);
-    QString mapConfig;
+  Game* getGame() const;
+  void setGame(Game* newGame);
+  QString mapConfig;
 
-    //    void loadStyleSheet(const QString &styleSheetFile);
+  //    void loadStyleSheet(const QString &styleSheetFile);
 
-public slots:
-    void startGame();
-    void chooseMap();
-    void exportMap();
+ public slots:
+  void startGame();
+  void chooseMap();
+  void exportMap();
 
-private:
-    Game* game;
-    int starticonangle;
+ private:
+  Game* game;
+  int starticonangle;
 };
 
-#endif // MAINWINDOW_H
+#endif  // INCLUDE_MAINWINDOW_H_

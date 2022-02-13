@@ -1,5 +1,6 @@
-#ifndef ENEMY_H
-#define ENEMY_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_ENEMY_ENEMY_H_
+#define INCLUDE_ENEMY_ENEMY_H_
 
 #include <common.h>
 #include <game.h>
@@ -7,62 +8,60 @@
 #include <tower/tower.h>
 
 class Enemy : public GameItem {
-    Q_INTERFACES(QGraphicsItem)
+  Q_INTERFACES(QGraphicsItem)
 
-public:
-    enum enemyMoveType {
-        WALKING = 0,
-        FLYING = 1,
-    };
-    Enemy(Game* game,
-        QList<QPointF>& path,
-        int money = 0,
+ public:
+  enum enemyMoveType {
+    WALKING = 0,
+    FLYING = 1,
+  };
+  Enemy(Game* game, QList<QPointF>* path, int money = 0,
         GameValue<qreal> HP = GameValue<qreal>(),
         GameValue<qreal> atk = GameValue<qreal>(),
-        GameValue<qreal> speed = GameValue<qreal>(),
-        int moveType = WALKING,
+        GameValue<qreal> speed = GameValue<qreal>(), int moveType = WALKING,
         qreal atkRadius = 0);
-    ~Enemy();
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void advance(int phase) override;
-    enum { Type = UserType + 2 };
-    int type() const override;
+  ~Enemy();
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+             QWidget* widget) override;
+  void advance(int phase) override;
+  enum { Type = UserType + 2 };
+  int type() const override;
 
-    /* enemy actions*/
-    void aquireTarget() override;
-    void attack() override;
-    void moveForward();
+  /* enemy actions*/
+  void aquireTarget() override;
+  void attack() override;
+  void moveForward();
 
-    /*setter and getter*/
+  /*setter and getter*/
 
-    QPointF getPoint(int index) const;
-    QPointF getDest() const;
-    int getpointIndex();
-    int getMoveType() const;
-    bool getIsStopped() const;
-    void setIsStopped(bool newIsStopped);
+  QPointF getPoint(int index) const;
+  QPointF getDest() const;
+  int getpointIndex();
+  int getMoveType() const;
+  bool getIsStopped() const;
+  void setIsStopped(bool newIsStopped);
 
-protected:
-    Game* game;
-    QList<QPointF> points;
-    QPointF dest;
-    int pointIndex;
+ protected:
+  Game* game;
+  QList<QPointF> points;
+  QPointF dest;
+  int pointIndex;
 
-    int moveType;
-    bool isStopped;
+  int moveType;
+  bool isStopped;
 
-    bool canAttackMelee;
-    bool canAttackRange;
+  bool canAttackMelee;
+  bool canAttackRange;
 
-    QMovie movie;
-    QMovie atkMovie;
-    QRectF atkMovieRect;
+  QMovie movie;
+  QMovie atkMovie;
+  QRectF atkMovieRect;
 
-    //    int deathCounter;
-    GameValue<int> deathCounter;
+  //    int deathCounter;
+  GameValue<int> deathCounter;
 
-public:
-    static int enemyCount;
+ public:
+  static int enemyCount;
 };
 
-#endif // ENEMY_H
+#endif  // INCLUDE_ENEMY_ENEMY_H_

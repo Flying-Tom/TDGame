@@ -1,13 +1,15 @@
-#ifndef GHOST_H
-#define GHOST_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_ENEMY_GHOST_H_
+#define INCLUDE_ENEMY_GHOST_H_
 
-#include "enemy.h"
+#include <enemy/enemy.h>
 
 class Ghost : public Enemy {
-public:
-    Ghost(Game* game, QList<QPointF>& path);
-    //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    QPainterPath shape() const override;
+ public:
+  Ghost(Game* game, QList<QPointF>* path);
+  //    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+  //    QWidget *widget) override;
+  QPainterPath shape() const override;
 };
 
-#endif // GHOST_H
+#endif  // INCLUDE_ENEMY_GHOST_H_

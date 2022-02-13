@@ -1,14 +1,15 @@
-#ifndef COWARDPLANE_H
-#define COWARDPLANE_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_ENEMY_COWARDPLANE_H_
+#define INCLUDE_ENEMY_COWARDPLANE_H_
 
-#include "enemy.h"
-#include "game.h"
+#include <enemy/enemy.h>
+#include <game.h>
 
 class CowardPlane : public Enemy {
-public:
-    CowardPlane(Game* game, QList<QPointF>& path);
-    QPainterPath shape() const override;
-    void advance(int phase) override;
+ public:
+  CowardPlane(Game* game, QList<QPointF>* path);
+  QPainterPath shape() const override;
+  void advance(int phase) override;
 };
 
-#endif // COWARDPLANE_H
+#endif  //  INCLUDE_ENEMY_COWARDPLANE_H_

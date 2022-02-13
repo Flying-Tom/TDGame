@@ -58,8 +58,10 @@
 Qt >= 5.12
 
 Ubuntu
-- `qt5-default`
-- `qtmultimedia5`
+```
+apt update
+apt install cmake make g++ qt5-default qtmultimedia5-dev
+```
 
 Windows
 

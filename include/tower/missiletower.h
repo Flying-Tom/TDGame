@@ -1,16 +1,18 @@
-#ifndef MISSILETOWER_H
-#define MISSILETOWER_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_MISSILETOWER_H_
+#define INCLUDE_TOWER_MISSILETOWER_H_
 
-#include "tower.h"
 #include <bullet/missile.h>
+#include <tower/tower.h>
+
 
 class MissileTower : public Tower {
-public:
-    MissileTower(Map* map);
-    ~MissileTower();
+ public:
+  explicit MissileTower(GameMap* map);
+  ~MissileTower();
 
-    void aquireTarget() override;
-    void attack() override;
+  void aquireTarget() override;
+  void attack() override;
 };
 
-#endif // MISSILETOWER_H
+#endif  // INCLUDE_TOWER_MISSILETOWER_H_

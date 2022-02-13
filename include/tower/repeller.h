@@ -1,13 +1,14 @@
-#ifndef REPELLER_H
-#define REPELLER_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_REPELLER_H_
+#define INCLUDE_TOWER_REPELLER_H_
 
-#include "tower.h"
+#include <tower/tower.h>
 
 class Repeller : public Tower {
-public:
-    Repeller(Map* map);
-    ~Repeller();
-    void advance(int phase) override;
+ public:
+  explicit Repeller(GameMap* map);
+  ~Repeller();
+  void advance(int phase) override;
 };
 
-#endif // REPELLER_H
+#endif  // INCLUDE_TOWER_REPELLER_H_

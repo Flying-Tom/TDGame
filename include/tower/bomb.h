@@ -1,18 +1,20 @@
-#ifndef BOMB_H
-#define BOMB_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_BOMB_H_
+#define INCLUDE_TOWER_BOMB_H_
 
-#include "tower.h"
+#include <tower/tower.h>
 
 class Bomb : public Tower {
-public:
-    Bomb(Map* map);
-    ~Bomb();
-    void advance(int phase) override;
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void bombing();
+ public:
+  explicit Bomb(GameMap* map);
+  ~Bomb();
+  void advance(int phase) override;
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+             QWidget* widget) override;
+  void bombing();
 
-protected:
-    QMovie movie;
+ protected:
+  QMovie movie;
 };
 
-#endif // BOMB_H
+#endif  // INCLUDE_TOWER_BOMB_H_

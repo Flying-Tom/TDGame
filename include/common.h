@@ -1,13 +1,17 @@
-#ifndef COMMON_H
-#define COMMON_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_COMMON_H_
+#define INCLUDE_COMMON_H_
 
 class GameItem;
 class Enemy;
 class Tower;
-class Map;
+class GameMap;
 class InfoPanel;
 class Game;
 class MainWindow;
+
+#include <qmath.h>
+#include <string.h>
 
 #include <QDebug>
 #include <QFile>
@@ -40,53 +44,42 @@ class MainWindow;
 #include <QVector>
 #include <QtWidgets>
 #include <iostream>
-#include <qmath.h>
-#include <set>
-#include <string.h>
-#include <vector>
 
 template <typename Val>
 class GameValue {
-private:
-    Val curValue;
-    Val maxValue;
+ private:
+  Val curValue;
+  Val maxValue;
 
-public:
-    GameValue()
-    {
-        curValue = Val();
-        maxValue = Val();
-    };
-    GameValue(Val cur, Val max)
-    {
-        curValue = cur;
-        maxValue = max;
-    }
-    ~GameValue() { }
-    inline const Val& getCurValue() const { return curValue; };
-    inline void setCurValue(const Val& newCurValue)
-    {
-        curValue = newCurValue;
-        if (curValue < Val())
-            curValue = Val();
-        if (curValue > maxValue)
-            curValue = maxValue;
-    };
-    inline void changeCurValue(Val delta) { setCurValue(curValue + delta); };
-    inline const Val& getMaxValue() const { return maxValue; };
-    inline void setMaxValue(const Val& newMaxValue) { maxValue = newMaxValue; };
+ public:
+  GameValue() {
+    curValue = Val();
+    maxValue = Val();
+  }
+  GameValue(Val cur, Val max) {
+    curValue = cur;
+    maxValue = max;
+  }
+  ~GameValue() {}
+  inline const Val& getCurValue() const { return curValue; }
+  inline void setCurValue(const Val& newCurValue) {
+    curValue = newCurValue;
+    if (curValue < Val()) curValue = Val();
+    if (curValue > maxValue) curValue = maxValue;
+  }
+  inline void changeCurValue(Val delta) { setCurValue(curValue + delta); }
+  inline const Val& getMaxValue() const { return maxValue; }
+  inline void setMaxValue(const Val& newMaxValue) { maxValue = newMaxValue; }
 };
 
 class InfoMsg : public QWidget {
-public:
-    InfoMsg(QWidget* parent)
-        : QWidget(parent) {};
-    void paintEvent(QPaintEvent* e) override
-    {
-        Q_UNUSED(e)
-        QPainter p(this);
-        p.drawImage(QRectF(-10, -10, 358, 242), QImage(":/images/messagebox.png"));
-    };
+ public:
+  explicit InfoMsg(QWidget* parent) : QWidget(parent) {}
+  void paintEvent(QPaintEvent* e) override {
+    Q_UNUSED(e)
+    QPainter p(this);
+    p.drawImage(QRectF(-10, -10, 358, 242), QImage(":/images/messagebox.png"));
+  };
 };
 
-#endif // COMMON_H
+#endif  // INCLUDE_COMMON_H_

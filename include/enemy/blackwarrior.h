@@ -1,13 +1,14 @@
-#ifndef BLACKWARRIOR_H
-#define BLACKWARRIOR_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_ENEMY_BLACKWARRIOR_H_
+#define INCLUDE_ENEMY_BLACKWARRIOR_H_
 
-#include "enemy.h"
-#include "game.h"
+#include <enemy/enemy.h>
+#include <game.h>
 
 class BlackWarrior : public Enemy {
-public:
-    BlackWarrior(Game* game, QList<QPointF>& path);
-    QPainterPath shape() const override;
+ public:
+  BlackWarrior(Game* game, QList<QPointF>* path);
+  QPainterPath shape() const override;
 };
 
-#endif // BLACKWARRIOR_H
+#endif  // INCLUDE_ENEMY_BLACKWARRIOR_H_

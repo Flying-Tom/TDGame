@@ -1,14 +1,16 @@
-#ifndef SHIELD_H
-#define SHIELD_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_TOWER_SHIELD_H_
+#define INCLUDE_TOWER_SHIELD_H_
 
-#include "tower.h"
+#include <tower/tower.h>
 
 class Shield : public Tower {
-public:
-    Shield(Map* map);
-    ~Shield();
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void advance(int phase) override;
+ public:
+  explicit Shield(GameMap* map);
+  ~Shield();
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+             QWidget* widget) override;
+  void advance(int phase) override;
 };
 
-#endif // SHIELD_H
+#endif  // INCLUDE_TOWER_SHIELD_H_

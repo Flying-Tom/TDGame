@@ -1,49 +1,53 @@
-#ifndef GAME_H
-#define GAME_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_GAME_H_
+#define INCLUDE_GAME_H_
 
 #include <common.h>
+#include <gamemap.h>
 #include <mainwindow.h>
-#include <map.h>
 #include <statistic.h>
 
+#include <vector>
+
 class Game : public QGraphicsView {
-    Q_OBJECT
-public:
-    Game(MainWindow* parent = 0, QString mapConfig = QString(":maps/map1.txt"));
-    ~Game();
+  Q_OBJECT
 
-public:
-    MainWindow* parent;
-    QGraphicsScene scene;
-    Map map;
-    Statistic statistic;
-    QString mapConfig;
+ public:
+  explicit Game(MainWindow* parent = 0, QString* mapConfig = 0);
+  ~Game();
 
-    int enemyNum;
-    int enemyMaxnum;
+ public:
+  MainWindow* parent;
+  QGraphicsScene scene;
+  GameMap map;
+  Statistic statistic;
+  QString* mapConfig;
 
-    void createEnemy(int num);
-    void updateGameSpeed();
-    void keyPressEvent(QKeyEvent* event) override;
-signals:
-    void GameOver();
-public slots:
-    void spawnEnemy();
-    void endThisGame(QString);
+  int enemyNum;
+  int enemyMaxnum;
 
-public:
-    int gameSpeed;
-    QTimer spawnTimer;
-    QTimer advanceTimer;
-    QElapsedTimer FPSCounterTimer;
+  void createEnemy(int num);
+  void updateGameSpeed();
+  void keyPressEvent(QKeyEvent* event) override;
+ signals:
+  void GameOver();
+ public slots:
+  void spawnEnemy();
+  void endThisGame(QString);
 
-    QMediaPlayer BGMplayer;
+ public:
+  int gameSpeed;
+  QTimer spawnTimer;
+  QTimer advanceTimer;
+  QElapsedTimer FPSCounterTimer;
 
-    std::vector<int> probEnemy;
-    std::vector<int> probRec;
-    std::vector<std::function<void(Enemy*&)>> enemyLambda;
-    int probSum;
-    int RandEnemyIndex();
+  QMediaPlayer BGMplayer;
+
+  std::vector<int> probEnemy;
+  std::vector<int> probRec;
+  std::vector<std::function<void(Enemy*&)>> enemyLambda;
+  int probSum;
+  int RandEnemyIndex();
 };
 
-#endif // GAME_H
+#endif  // INCLUDE_GAME_H_

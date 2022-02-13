@@ -1,16 +1,18 @@
-#ifndef GUNBULLET_H
-#define GUNBULLET_H
+// Copyright 2022 Flying-Tom
+#ifndef INCLUDE_BULLET_GUNBULLET_H_
+#define INCLUDE_BULLET_GUNBULLET_H_
 
-#include "bullet.h"
-#include "enemy/enemy.h"
+#include <bullet/bullet.h>
+#include <enemy/enemy.h>
 
 class GunBullet : public Bullet {
-public:
-    GunBullet(qreal atk);
-    QRectF boundingRect() const override;
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
-    void advance(int phase) override;
-    void moveForward() override;
+ public:
+  explicit GunBullet(qreal atk);
+  QRectF boundingRect() const override;
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+             QWidget* widget) override;
+  void advance(int phase) override;
+  void moveForward() override;
 };
 
-#endif // GUNBULLET_H
+#endif  // INCLUDE_BULLET_GUNBULLET_H_
