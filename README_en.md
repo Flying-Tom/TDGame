@@ -2,33 +2,33 @@
 
 <p><a href="https://opensource.org/licenses/"></a><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="GPLv3 License"><a href="https://t.me/BrokenTom"></a><img src="https://badge.fury.io/gh/tterb%2FHyde.svg" alt="Version"> <a href="https://github.com/Flying-Tom/TDGame/actions/workflows/release-windows.yml"></a><img src="https://github.com/Flying-Tom/TDGame/actions/workflows/release-windows.yml/badge.svg" alt="Windows Release"> <a href="https://github.com/Flying-Tom/TDGame/actions/workflows/release-ubuntu.yml"></a><img src="https://github.com/Flying-Tom/TDGame/actions/workflows/release-ubuntu.yml/badge.svg" alt="Ubuntu Release"></p>
 
-2021年秋季学期《高级程序设计》课程项目：基于Qt库的简单塔防小游戏
+The course project of "Advanced Programming" in the fall semester of 2021: A simple tower defense game based on the Qt library
 
-已有通过Github Actions构建的[Demo](https://github.com/Flying-Tom/TDGame/releases)可供下载
+[Demos](https://github.com/Flying-Tom/TDGame/releases) built with Github Actions are available for download
 
-## 项目结构
+## Project structure
 
 ![](doc/figs/MainWindow.png)
 
-采用了Qt的Graphics View框架
+Using Qt's Graphics View framework
 
-- 蓝色框，即 `MainWindow`,表示的是应用的主窗口界面
+- The blue box, the `MainWindow` , represents the main window interface of the application
 
-- 绿色框表示当前类是继承于Qt的自定义基类，黑色框为其对应的子类。
+- The green box indicates that the current class is a custom base class inherited from Qt, and the black box is its corresponding subclass.
 
-- `Tower`和`Enemy`是继承于`GameItem`(将防御塔和敌人的共同特征做了较大程度的抽象)的派生类
+- `Tower` and `Enemy` are derived classes that inherit from `GameItem` (which abstracts the common features of towers and enemies to a greater extent)
 
-- 绿色箭头表示被指向的一端是另一端的成员, 是绘图层面或者是对象组织层面上的父子关系 (类似于聚合)
+- The green arrow indicates that the pointed end is a member of the other end, which is a parent-child relationship at the drawing level or at the object organization level (similar to aggregation)
 
-> 更为具体的设计和游戏内容(单位介绍和实现功能等)可参见 具体的实验报告`doc/report.pdf`
+> For more specific design and game content (unit introduction and implementation functions, etc.), please refer to the specific experimental report `doc/report.pdf`
 
-## 游戏截图
+## Game screenshot
 
-4张地图，7种防御塔和8种敌人
+4 maps, 7 types of towers and 8 types of enemies
 
-- 游戏内`ESC`返回主菜单，`F5`暂停
-- <s>游戏平衡做的稀巴烂 (不是怪太强就是塔太强)</s>
-- 有一些个人风格比较强的不是很推荐的设计
+- In-game `ESC` returns to the main menu, `F5` pauses
+- <s>The game balance is sloppy (the enemy too strong or the tower too strong)</s>
+- There are some designs with strong personal style that are not very recommended
 
 ![](doc/figs/level1.png)
 
@@ -38,7 +38,7 @@
 
 ![](doc/figs/level4.png)
 
-## 编译环境
+## Compiler Environment
 
 Qt &gt;= 5.12
 
