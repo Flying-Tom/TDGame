@@ -39,7 +39,7 @@ jobs:
         with:
           type: "zip"
           directory: ${{github.workspace}}/release/
-          filename: "TDGame-Ubuntu-${{github.ref_name}}.zip"
+          filename: "TDGame-ubuntu-${{github.ref_name}}.zip"
 
       - name: Upload Release
         uses: softprops/action-gh-release@v2
