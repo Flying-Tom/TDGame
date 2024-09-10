@@ -3,7 +3,7 @@ name: Windows Release
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - "v*.*.*"
 
@@ -53,4 +53,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: "${{github.workspace}}/release/TDGame-Windows-${{github.ref_name}}.zip"
+          files: "${{github.workspace}}/release/TDGame-windows-${{github.ref_name}}.zip"
