@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - ci-test
     tags:
       - "v*.*.*"
 
@@ -13,27 +12,31 @@ env:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
+        with:
+          host: "mac"
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
       - name: Pack Resources
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           mkdir ${{github.workspace}}/release/
           cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/
           cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
+
       - name: Archive Release
-        uses: thedoctor0/zip-release@master
+        uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           type: "zip"
@@ -41,7 +44,7 @@ jobs:
           filename: "TDGame-macos-${{github.ref_name}}.zip"
 
       - name: Upload Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           files: "${{github.workspace}}/release/TDGame-macos-${{github.ref_name}}.zip"
