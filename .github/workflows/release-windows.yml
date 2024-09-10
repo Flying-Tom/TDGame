@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci-fix
     tags:
       - "v*.*.*"
 
@@ -17,13 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up MinGW
-        uses: egor-tensin/setup-mingw@v2
-        with:
-          platform: x64
-
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v2
         with:
           arch: "win64_mingw81"
 
@@ -31,7 +27,7 @@ jobs:
         run: cmake -G "MinGW Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
 
       - name: Pack Resources
         if: startsWith(github.ref, 'refs/tags/v')
@@ -39,8 +35,8 @@ jobs:
           mkdir ${{github.workspace}}\release
           Xcopy ${{github.workspace}}\build\TDGame.exe ${{github.workspace}}\release
           Xcopy /E /I ${{github.workspace}}\resource\maps ${{github.workspace}}\release\maps
-          cd ${{env.Qt5_Dir}}/bin/
-          ./windeployqt.exe ${{github.workspace}}\release\TDGame.exe
+          cd ${{env.Qt5_Dir}}\bin\
+          .\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
 
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
