@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.10)
 project(TDGame LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -8,26 +8,44 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Include directories
 include_directories(include)
-file(GLOB CMAKE_CXX_SOURCES src/*.cpp src/**/*.cpp)
-file(GLOB CMAKE_CXX_HEADERS include/*.h include/**/*.h)
+
+# Source files
+file(GLOB_RECURSE CMAKE_CXX_SOURCES src/*.cpp)
+file(GLOB_RECURSE CMAKE_CXX_HEADERS include/*.h)
 file(GLOB CMAKE_CXX_RESOURCES resource/*.qrc)
 
-find_package(Qt6 COMPONENTS Widgets Core Gui Multimedia REQUIRED)
+# Find Qt modules
+find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui Multimedia)
 
+# Platform-specific executable definition
 if(WIN32)
-message(status "compiling for win32")
-    add_executable(TDGame WIN32
+  message(STATUS "Compiling for Windows")
+  add_executable(TDGame WIN32
     ${CMAKE_CXX_HEADERS}
     ${CMAKE_CXX_SOURCES}
     ${CMAKE_CXX_RESOURCES}
-    )
-else()
-    add_executable(TDGame 
-    ${CMAKE_CXX_HEADERS}
-    ${CMAKE_CXX_SOURCES}
-    ${CMAKE_CXX_RESOURCES}
-    )
-endif()
-target_link_libraries(TDGame Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Multimedia)
+  )
+elseif(APPLE)
+  message(STATUS "Compiling for macOS")
 
+  # Optional: bundle the app
+  set(MACOSX_BUNDLE_ICON_FILE icon.icns) # Optional
+  set_source_files_properties(${CMAKE_CXX_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+  add_executable(TDGame MACOSX_BUNDLE
+    ${CMAKE_CXX_HEADERS}
+    ${CMAKE_CXX_SOURCES}
+    ${CMAKE_CXX_RESOURCES}
+  )
+else()
+  message(STATUS "Compiling for Unix/Linux")
+  add_executable(TDGame
+    ${CMAKE_CXX_HEADERS}
+    ${CMAKE_CXX_SOURCES}
+    ${CMAKE_CXX_RESOURCES}
+  )
+endif()
+
+# Link Qt libraries
+target_link_libraries(TDGame Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Multimedia)
