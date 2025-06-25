@@ -6,9 +6,11 @@ on:
       - main
     tags:
       - "v*.*.*"
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - "**.svg"
+      - "**.png"
 
 env:
   BUILD_TYPE: Release
@@ -32,24 +34,21 @@ jobs:
         run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
 
       - name: Pack Resources
-        if: startsWith(github.ref, 'refs/tags/v')
+        # if: startsWith(github.ref, 'refs/tags/v')
         run: |
           mkdir ${{github.workspace}}\release
           Xcopy ${{github.workspace}}\build\TDGame.exe ${{github.workspace}}\release
           Xcopy /E /I ${{github.workspace}}\resource\maps ${{github.workspace}}\release\maps
-          cd ${{env.Qt5_DIR}}\bin\
-          .\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
+          ${{env.Qt5_Dir}}\bin\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
 
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
+      - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           type: "zip"
           directory: ${{github.workspace}}/release/
           filename: "TDGame-Windows-${{github.ref_name}}.zip"
 
-      - name: Upload Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           files: "${{github.workspace}}/release/TDGame-windows-${{github.ref_name}}.zip"

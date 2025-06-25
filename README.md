@@ -15,7 +15,9 @@
 </a>
 </p>
 
-NJUCS 2021 年秋季学期《高级程序设计》课程项目：基于 Qt 实现的简单塔防小游戏，现有可供下载的 [Demo](https://github.com/Flying-Tom/TDGame/releases)
+NJUCS 2021 年秋季学期《高级程序设计》课程项目：基于 Qt 实现的简单塔防小游戏
+
+> [DeepWiki](https://deepwiki.com/Flying-Tom/TDGame/), 可供下载的 [Demo](https://github.com/Flying-Tom/TDGame/releases)
 
 ## 项目结构
 
@@ -72,10 +74,8 @@ classDiagram
 
 ```
 
-4张地图，7种防御塔和8种敌人
-
+- 共有4张地图，7种防御塔和8种敌人
 - 游戏内`ESC`返回主菜单，`F5`暂停
-- ~~游戏平衡做的稀巴烂 (仅为课设完成度)~~
 
 ## 游戏截图
 
