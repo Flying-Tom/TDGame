@@ -86,7 +86,7 @@ classDiagram
 
 ## 编译环境
 
-- Qt >= 6.10
+- Qt >= 6.2.4
 - Ubuntu
   - `build-essential` & `cmake`
   - `qt6-base-dev`, `qtmultimedia6-dev`

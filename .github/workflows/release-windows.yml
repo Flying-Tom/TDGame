@@ -24,9 +24,10 @@ jobs:
 
       - uses: jurplel/install-qt-action@v4
         with:
-          version: "6.10"
+          version: "6.2.4"
           cache: true
           arch: "win64_mingw"
+          modules: qtmultimedia
 
       - name: Configure CMake
         run: cmake -G "MinGW Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
