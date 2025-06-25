@@ -45,7 +45,7 @@ Game::Game(MainWindow *parent, QString *mapConfig)
   updateGameSpeed();
 
   /* media init */
-  //    BGMplayer->setMedia(QUrl("D:/Qtprojects/build-TDGame-Desktop_Qt_5_15_2_MinGW_64_bit-Release/PartyTime.mp3"));
+  //    BGMplayer->setMedia(QUrl("xxx/PartyTime.mp3"));
   BGMplayer.setVolume(50);
   BGMplayer.play();
 
