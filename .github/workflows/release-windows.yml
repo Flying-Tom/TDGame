@@ -14,6 +14,8 @@ on:
 
 env:
   BUILD_TYPE: Release
+  BUILD_DIR: ${{github.workspace}}\build
+  RELEASE_DIR: ${{github.workspace}}\release
 
 jobs:
   build:
@@ -33,24 +35,24 @@ jobs:
         run: cmake -G "MinGW Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}\build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{env.BUILD_DIR}} --config ${{env.BUILD_TYPE}}
 
       - name: Pack Resources
         # if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir ${{github.workspace}}\release -Force
-          Xcopy ${{github.workspace}}\build\TDGame.exe ${{github.workspace}}\release
-          Xcopy /E /I ${{github.workspace}}\resource\maps ${{github.workspace}}\release\maps
-          ${{env.QT_ROOT_DIR}}\bin\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
+          mkdir ${{env.RELEASE_DIR}} -Force
+          Xcopy ${{env.BUILD_DIR}}\TDGame.exe ${{env.RELEASE_DIR}}
+          Xcopy /E /I ${{github.workspace}}\resource\maps ${{env.RELEASE_DIR}}\maps
+          ${{env.QT_ROOT_DIR}}\bin\windeployqt.exe ${{env.RELEASE_DIR}}\TDGame.exe
 
       - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           type: "zip"
-          directory: ${{github.workspace}}/release/
+          directory: ${{env.RELEASE_DIR}}
           filename: "TDGame-Windows-${{github.ref_name}}.zip"
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: "${{github.workspace}}/release/TDGame-windows-${{github.ref_name}}.zip"
+          files: "${{env.RELEASE_DIR}}/TDGame-windows-${{github.ref_name}}.zip"

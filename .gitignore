@@ -35,11 +35,5 @@
 **build*/**
 **.vscode/
 **.vs/
-**_minted**/**
 .cache/
-compile_commands.json
-TDGame*
-CMakeFiles
-cmake_install.cmake
-CMakeCache.txt
 Makefile

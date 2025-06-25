@@ -10,9 +10,9 @@
 #include <enemy/spirit.h>
 #include <game.h>
 
-Game::Game(MainWindow *parent, QString *mapConfig)
+Game::Game(QMainWindow *parent, QString *mapConfig)
     : QGraphicsView(parent),
-      parent(parent),
+      // parent(parent),
       scene(this),
       map(this, mapConfig),
       statistic(this),
@@ -35,7 +35,7 @@ Game::Game(MainWindow *parent, QString *mapConfig)
   scene.addItem(&statistic);
 
   /* game timer init */
-  gameSpeed = 3;
+  gameSpeed = 5;
 
   FPSCounterTimer.start();
 
@@ -78,11 +78,9 @@ Game::Game(MainWindow *parent, QString *mapConfig)
       path << map.flyingPath.first();
       int pathLen = QRandomGenerator::global()->bounded(5, 15);
       while (pathLen--) {
-        //                path <<
-        //                Map::BlockToCoordinate({QRandomGenerator::global()->bounded(0,
-        //                16),
-        //                                                QRandomGenerator::global()->bounded(0,
-        //                                                12)});
+        // path << Map::BlockToCoordinate(
+        //     {QRandomGenerator::global()->bounded(0, 16),
+        //      QRandomGenerator::global()->bounded(0, 12)});
         path << QPointF(QRandomGenerator::global()->bounded(0, 1280),
                         QRandomGenerator::global()->bounded(0, 960));
       }
@@ -97,7 +95,7 @@ Game::Game(MainWindow *parent, QString *mapConfig)
   //    Enemy *enemy = new RobotSoldier(this, map.path);
   //    scene.addItem(enemy);
 
-  createEnemy(1000);
+  createEnemy(1000, 500);
 }
 
 Game::~Game() {}
@@ -129,23 +127,23 @@ void Game::endThisGame(QString s) {
     message.addButton("Return", QMessageBox::AcceptRole);
     message.exec();
   }
-  parent->setGame(nullptr);
+  // parent->setGame(nullptr);
   deleteLater();
 }
 
 void Game::updateGameSpeed() {
-  advanceTimer.start(33 / gameSpeed);
+  advanceTimer.start(50 / gameSpeed);
 
   //    if (spawnTimer.isActive() == true) {
   //        spawnTimer.start(1000 / gameSpeed);
   //    }
 }
 
-void Game::createEnemy(int num) {
+void Game::createEnemy(int num, int interval) {
   enemyNum = 0;
   enemyMaxnum = num;
 
-  spawnTimer.start(2500 / gameSpeed);
+  spawnTimer.start(interval / gameSpeed);
 }
 
 void Game::spawnEnemy() {
@@ -172,17 +170,17 @@ int Game::RandEnemyIndex() {
 void Game::keyPressEvent(QKeyEvent *event) {
   switch (event->key()) {
     case Qt::Key_N:
-      createEnemy(100);
+      createEnemy(500, 50);
       break;
     case Qt::Key_T:
-      createEnemy(1000);
+      createEnemy(5000, 1000);
       break;
     case Qt::Key_Left:
-      gameSpeed = std::max(1, gameSpeed - 1);
+      gameSpeed = std::max(1, gameSpeed / 2);
       updateGameSpeed();
       break;
     case Qt::Key_Right:
-      gameSpeed = std::min(5, gameSpeed + 1);
+      gameSpeed = std::min(10, gameSpeed * 2);
       updateGameSpeed();
       break;
     case Qt::Key_F5:
@@ -190,7 +188,6 @@ void Game::keyPressEvent(QKeyEvent *event) {
         advanceTimer.stop();
         statistic.setEnabled(false);
         scene.advance();
-
       } else {
         statistic.setEnabled(true);
         advanceTimer.start();

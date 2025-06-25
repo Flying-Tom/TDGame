@@ -14,6 +14,8 @@ on:
 
 env:
   BUILD_TYPE: Release
+  BUILD_DIR: ${{github.workspace}}/build
+  RELEASE_DIR: ${{github.workspace}}/release
 
 jobs:
   build:
@@ -30,26 +32,26 @@ jobs:
           modules: qtmultimedia
 
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: CMAKE_OSX_ARCHITECTURES=arm64;x86_64 cmake -B ${{env.BUILD_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{env.BUILD_DIR}} --config ${{env.BUILD_TYPE}}
 
       - name: Pack Resources
         # if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir -p ${{github.workspace}}/release/
-          cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/
-          cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
+          mkdir -p ${{env.RELEASE_DIR}}
+          cp ${{env.BUILD_DIR}}/TDGame ${{env.RELEASE_DIR}}
+          cp -r ${{github.workspace}}/resource/maps/ ${{env.RELEASE_DIR}}
 
       - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           type: "zip"
-          directory: ${{github.workspace}}/release/
+          directory: ${{env.RELEASE_DIR}}
           filename: "TDGame-ubuntu-${{github.ref_name}}.zip"
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: "${{github.workspace}}/release/TDGame-ubuntu-${{github.ref_name}}.zip"
+          files: "${{env.RELEASE_DIR}}/TDGame-ubuntu-${{github.ref_name}}.zip"

@@ -14,6 +14,8 @@ on:
 
 env:
   BUILD_TYPE: Release
+  BUILD_DIR: ${{github.workspace}}/build
+  RELEASE_DIR: ${{github.workspace}}/release
 
 jobs:
   build:
@@ -52,30 +54,29 @@ jobs:
       - name: Configure CMake
         run: |
           if [[ $(uname -m) == "arm64" ]]; then
-            arch -x86_64 cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
+            arch -x86_64 cmake -B ${{env.BUILD_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
           else
-            cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
+            cmake -B ${{env.BUILD_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
           fi
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{env.BUILD_DIR}} --config ${{env.BUILD_TYPE}}
 
       - name: Pack Resources
         # if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir -p ${{github.workspace}}/release/TDGame.app
-          cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
-          cp -r ${{github.workspace}}/build/TDGame.app ${{github.workspace}}/release/TDGame.app 
-          ${{env.QT_ROOT_DIR}}/bin/macdeployqt ${{github.workspace}}/release/TDGame.app
+          cp -r ${{github.workspace}}/resource/maps/ ${{env.RELEASE_DIR}}
+          cp -r ${{env.BUILD_DIR}}/TDGame.app ${{env.RELEASE_DIR}}
+          ${{env.QT_ROOT_DIR}}/bin/macdeployqt ${{env.RELEASE_DIR}}/TDGame.app
 
       - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           type: "zip"
-          directory: ${{github.workspace}}/release/
+          directory: ${{env.RELEASE_DIR}}
           filename: "TDGame-macOS-${{ matrix.arch }}-${{github.ref_name}}.zip"
 
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: "${{github.workspace}}/release/TDGame-macos-${{ matrix.arch }}-${{github.ref_name}}.zip"
+          files: "${{env.RELEASE_DIR}}/TDGame-macos-${{ matrix.arch }}-${{github.ref_name}}.zip"

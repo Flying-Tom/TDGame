@@ -4,8 +4,8 @@
 
 #include <common.h>
 #include <gamemap.h>
-#include <mainwindow.h>
 #include <statistic.h>
+// #include <mainwindow.h>
 
 #include <vector>
 
@@ -13,11 +13,11 @@ class Game : public QGraphicsView {
   Q_OBJECT
 
  public:
-  explicit Game(MainWindow* parent = 0, QString* mapConfig = 0);
+  explicit Game(QMainWindow* parent, QString* mapConfig = 0);
   ~Game();
 
  public:
-  MainWindow* parent;
+  QMainWindow* parent;
   QGraphicsScene scene;
   GameMap map;
   Statistic statistic;
@@ -26,7 +26,7 @@ class Game : public QGraphicsView {
   int enemyNum;
   int enemyMaxnum;
 
-  void createEnemy(int num);
+  void createEnemy(int num, int interval);
   void updateGameSpeed();
   void keyPressEvent(QKeyEvent* event) override;
  signals:
