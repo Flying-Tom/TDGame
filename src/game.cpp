@@ -46,7 +46,6 @@ Game::Game(MainWindow *parent, QString *mapConfig)
 
   /* media init */
   //    BGMplayer->setMedia(QUrl("xxx/PartyTime.mp3"));
-  BGMplayer.setVolume(50);
   BGMplayer.play();
 
   /* enemy spawning system based on probability init */
@@ -117,7 +116,7 @@ void Game::endThisGame(QString s) {
     message.setWindowOpacity(0.8);
     // message.setMask(QPixmap(":/images/messagebox.png").scaled(200,
     // 100).mask());
-    message.setButtonText(QMessageBox::Ok, "Return");
+    message.addButton("Return", QMessageBox::AcceptRole);
     message.exec();
   } else if (s == QString("GameOver")) {
     advanceTimer.disconnect();
@@ -127,7 +126,7 @@ void Game::endThisGame(QString s) {
     QMessageBox message(QMessageBox::NoIcon, "Mission Failed", "Game Over😈");
     message.setWindowModality(Qt::NonModal);
     message.resize(200, 50);
-    message.setButtonText(QMessageBox::Ok, "Return");
+    message.addButton("Return", QMessageBox::AcceptRole);
     message.exec();
   }
   parent->setGame(nullptr);

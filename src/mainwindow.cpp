@@ -7,12 +7,13 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   setFixedSize(1600, 960);
-  move((QApplication::desktop()->width() - width()) / 2,
-       (QApplication::desktop()->height() - height()) / 2 - 50);
+  QRect screenGeometry = QGuiApplication::primaryScreen()->geometry();
+  move((screenGeometry.width() - width()) / 2,
+       (screenGeometry.height() - height()) / 2 - 50);
   starticonangle = 0;
   game = nullptr;
   mapConfig = QString(":maps/map1.txt");
-  setCursor(QPixmap(":images/mouse.png"));
+  setCursor(QCursor(QPixmap(":images/mouse.png")));
 
   QWidget* menu = new QWidget(this);
 
