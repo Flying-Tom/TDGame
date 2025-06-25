@@ -48,10 +48,10 @@ jobs:
       - name: Pack Resources
         # if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir ${{github.workspace}}/release/  
-          cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/  
+          mkdir -p ${{github.workspace}}/release/TDGame.app
           cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
-          ${{env.QT_ROOT_DIR}}/bin/macdeployqt ${{github.workspace}}/release
+          cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/TDGame.app 
+          ${{env.QT_ROOT_DIR}}/bin/macdeployqt ${{github.workspace}}/release/TDGame.app
 
       - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
