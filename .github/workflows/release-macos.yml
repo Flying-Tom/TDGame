@@ -33,6 +33,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: "5.15.2"
+          cache: true
           target: desktop
           arch: ${{ matrix.qt_arch }}
 

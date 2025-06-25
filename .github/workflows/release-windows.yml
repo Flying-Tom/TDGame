@@ -25,6 +25,7 @@ jobs:
       - uses: jurplel/install-qt-action@v4
         with:
           version: "5.15.2"
+          cache: true
           arch: "win64_mingw81"
 
       - name: Configure CMake
@@ -39,7 +40,7 @@ jobs:
           mkdir ${{github.workspace}}\release
           Xcopy ${{github.workspace}}\build\TDGame.exe ${{github.workspace}}\release
           Xcopy /E /I ${{github.workspace}}\resource\maps ${{github.workspace}}\release\maps
-          ${{env.Qt5_Dir}}\bin\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
+          ${{env.QT_ROOT_DIR}}\bin\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
 
       - uses: thedoctor0/zip-release@0.7.5
         if: startsWith(github.ref, 'refs/tags/v')
