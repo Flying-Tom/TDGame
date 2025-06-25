@@ -13,7 +13,7 @@ file(GLOB CMAKE_CXX_SOURCES src/*.cpp src/**/*.cpp)
 file(GLOB CMAKE_CXX_HEADERS include/*.h include/**/*.h)
 file(GLOB CMAKE_CXX_RESOURCES resource/*.qrc)
 
-find_package(Qt5 COMPONENTS Widgets Core Gui Multimedia REQUIRED)
+find_package(Qt6 COMPONENTS Widgets Core Gui Multimedia REQUIRED)
 
 if(WIN32)
 message(status "compiling for win32")
@@ -29,5 +29,5 @@ else()
     ${CMAKE_CXX_RESOURCES}
     )
 endif()
-target_link_libraries(TDGame Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia)
+target_link_libraries(TDGame Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Multimedia)
 

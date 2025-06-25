@@ -86,9 +86,9 @@ classDiagram
 
 ## 编译环境
 
-- Qt >= 5.12
+- Qt >= 6.10
 - Ubuntu
   - `build-essential` & `cmake`
-  - `qt5-default`, `qtmultimedia5-dev`
+  - `qt6-base-dev`, `qtmultimedia6-dev`
 - Windows
   - [mingw](https://www.mingw-w64.org/)
