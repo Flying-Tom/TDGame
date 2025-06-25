@@ -38,7 +38,7 @@ jobs:
       - name: Pack Resources
         # if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir ${{github.workspace}}/release/
+          mkdir -p ${{github.workspace}}/release/
           cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/
           cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
 
