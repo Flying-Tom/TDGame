@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - ci-fix
     tags:
       - "v*.*.*"
   pull_request:
@@ -38,7 +37,7 @@ jobs:
           mkdir ${{github.workspace}}\release
           Xcopy ${{github.workspace}}\build\TDGame.exe ${{github.workspace}}\release
           Xcopy /E /I ${{github.workspace}}\resource\maps ${{github.workspace}}\release\maps
-          cd ${{env.Qt5_Dir}}\bin\
+          cd ${{env.Qt5_DIR}}\bin\
           .\windeployqt.exe ${{github.workspace}}\release\TDGame.exe
 
       - name: Archive Release
