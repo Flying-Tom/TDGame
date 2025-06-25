@@ -1,4 +1,4 @@
-name: Ubuntu Release
+name: macOS Release
 
 on:
   push:
@@ -6,27 +6,37 @@ on:
       - main
     tags:
       - "v*.*.*"
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
 
 env:
   BUILD_TYPE: Release
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: macos-13
+            arch: x86_64
+            qt_arch: clang_64
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: jurplel/install-qt-action@v4
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
         with:
           version: "5.15.2"
           target: desktop
+          arch: ${{ matrix.qt_arch }}
 
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: |
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
@@ -34,8 +44,8 @@ jobs:
       - name: Pack Resources
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          mkdir ${{github.workspace}}/release/
-          cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/
+          mkdir ${{github.workspace}}/release/  
+          cp ${{github.workspace}}/build/TDGame ${{github.workspace}}/release/  
           cp -r ${{github.workspace}}/resource/maps/ ${{github.workspace}}/release/
 
       - name: Archive Release
@@ -44,10 +54,10 @@ jobs:
         with:
           type: "zip"
           directory: ${{github.workspace}}/release/
-          filename: "TDGame-ubuntu-${{github.ref_name}}.zip"
+          filename: "TDGame-macOS-${{ matrix.arch }}-${{github.ref_name}}.zip"
 
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          files: "${{github.workspace}}/release/TDGame-ubuntu-${{github.ref_name}}.zip"
+          files: "${{github.workspace}}/release/TDGame-macOS-${{ matrix.arch }}-${{github.ref_name}}.zip"
