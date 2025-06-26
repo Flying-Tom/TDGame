@@ -84,7 +84,11 @@ classDiagram
 |![level1.png](doc/figs/level1.png)|![level2.png](doc/figs/level2.png)|
 |![level3.png](doc/figs/level3.png)|![level4.png](doc/figs/level4.png)|
 
-## 编译环境
+## 如何编译
+
+执行 `scripts/build.sh` 脚本进行初始化编译, 后续在 `build` 目录下执行 `make` 相关命令即可
+
+### 编译环境
 
 - Qt >= 6.2.4
 - Ubuntu

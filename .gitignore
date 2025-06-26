@@ -37,3 +37,4 @@
 **.vs/
 .cache/
 Makefile
+.DS_Store

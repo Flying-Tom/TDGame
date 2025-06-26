@@ -29,14 +29,18 @@ if(WIN32)
   )
 elseif(APPLE)
   message(STATUS "Compiling for macOS")
-
-  # Optional: bundle the app
-  set(MACOSX_BUNDLE_ICON_FILE icon.icns) # Optional
-  set_source_files_properties(${CMAKE_CXX_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+  file(GLOB CMAKE_ICON_FILE resource/icon.icns)
+  set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+  set(CMAKE_MACOSX_BUNDLE YES)
+  set(MACOSX_BUNDLE_BUNDLE_NAME "TDGame")
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.tdgame")
+  set_source_files_properties(${CMAKE_CXX_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+  set_source_files_properties(${CMAKE_ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
   add_executable(TDGame MACOSX_BUNDLE
     ${CMAKE_CXX_HEADERS}
     ${CMAKE_CXX_SOURCES}
     ${CMAKE_CXX_RESOURCES}
+    ${CMAKE_ICON_FILE}
   )
 else()
   message(STATUS "Compiling for Unix/Linux")
