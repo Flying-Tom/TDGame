@@ -13,6 +13,9 @@
 <a href="https://github.com/Flying-Tom/TDGame/actions/workflows/release-ubuntu.yml">
 <img src="https://github.com/Flying-Tom/TDGame/actions/workflows/release-ubuntu.yml/badge.svg" alt="Ubuntu Release">
 </a>
+<a href="https://github.com/Flying-Tom/TDGame/actions/workflows/release-macos.yml">
+<img src="https://github.com/Flying-Tom/TDGame/actions/workflows/release-macos.yml/badge.svg" alt="MacOS Release">
+</a>
 </p>
 
 NJUCS 2021 年秋季学期《高级程序设计》课程项目：基于 Qt 实现的简单塔防小游戏
