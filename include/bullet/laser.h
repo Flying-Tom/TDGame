@@ -7,7 +7,7 @@
 
 class Laser : public Bullet {
  public:
-  Laser(GameItem* parent, qreal atk);
+  Laser(QPointer<GameItem> parent, qreal atk);
   ~Laser();
   QRectF boundingRect() const override;
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
@@ -15,7 +15,7 @@ class Laser : public Bullet {
   void advance(int phase) override;
 
  protected:
-  GameItem* parent;
+  QPointer<GameItem> parent;
   int counter;
 };
 

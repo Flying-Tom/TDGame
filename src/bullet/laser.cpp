@@ -3,7 +3,7 @@
 #include <bullet/laser.h>
 #include <tower/lasertower.h>
 
-Laser::Laser(GameItem* parent, qreal atk) : parent(parent) {
+Laser::Laser(QPointer<GameItem> parent, qreal atk) : parent(parent) {
   Bullet::atk = atk;
   counter = 0;
   image = QImage(":images/laser.png");
