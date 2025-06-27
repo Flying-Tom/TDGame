@@ -4,12 +4,14 @@
 #include <statistic.h>
 
 const QMap<QString, int> Shop::map = {
-    {"guntower", 0},     {"bomb", 1},     {"repeller", 2}, {"lasertower", 3},
-    {"missiletower", 4}, {"sawtooth", 5}, {"campfire", 6}, {"shield", 7}};
-const QVector<QString> Shop::name = {"guntower",   "bomb",         "repeller",
-                                     "lasertower", "missiletower", "sawtooth",
-                                     "campfire",   "shield"};
-const QVector<int> Shop::cost = {1000, 1000, 500, 4000, 5000, 5000, 2000, 1000};
+    {"guntower", 0},     {"lasertower", 1}, {"repeller", 2}, {"bomb", 3},
+    {"missiletower", 4}, {"sawtooth", 5},   {"campfire", 6}, {"shield", 7},
+};
+const QVector<QString> Shop::name = {
+    "guntower",     "lasertower", "repeller", "bomb",
+    "missiletower", "sawtooth",   "campfire", "shield",
+};
+const QVector<int> Shop::cost = {1000, 2000, 500, 500, 5000, 5000, 2000, 1000};
 const QVector<int> Shop::cdtime = {30, 40, 50, 3, 3, 5, 20, 20};
 
 Shop::Shop(QString s, qreal left, qreal top, qreal width, qreal height) {

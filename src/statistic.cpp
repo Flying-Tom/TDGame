@@ -18,39 +18,23 @@ Statistic::Statistic(Game* game)
   moneyAddCounter = GameValue<int>(500, 500);
   FPS = 0;
 
-  Shop* icon = nullptr;
-
-  icon = new Shop(Shop::name[0], 0, 0, 64, 128);
-  icon->setParentItem(this);
-  icon->setPos(1290, 55 + 96 * 1);
-
-  icon = new Shop(Shop::name[3], 0, 0, 64, 128);
-  icon->setParentItem(this);
-  icon->setPos(1450, 55 + 96 * 1);
-
-  icon = new Shop(Shop::name[1], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1290, 85 + 96 * 2);
-
-  icon = new Shop(Shop::name[2], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1450, 85 + 96 * 2);
-
-  icon = new Shop(Shop::name[4], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1450, 85 + 96 * 3);
-
-  icon = new Shop(Shop::name[5], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1450, 85 + 96 * 4);
-
-  icon = new Shop(Shop::name[6], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1450, 85 + 96 * 5);
-
-  icon = new Shop(Shop::name[7], 0, 0, 64, 64);
-  icon->setParentItem(this);
-  icon->setPos(1290, 85 + 96 * 3);
+  int shopXoffset = 1300, shopYoffset = 160;
+  int shopItemInterval = 96;
+  for (int i = 0; i < 8; i++) {
+    Shop* icon = nullptr;
+    int shopItemX = 64, shopItemY = 64;
+    if (i == 0 || i == 1) {
+      // no square icon
+      shopItemX = 64;
+      shopItemY = 128;
+    } else if (i == 2) {
+      // extra offset
+      shopYoffset += 20;
+    }
+    icon = new Shop(Shop::name[i], 0, 0, shopItemX, shopItemY);
+    icon->setParentItem(this);
+    icon->setPos(shopXoffset, shopYoffset + shopItemInterval * i);
+  }
 }
 
 QRectF Statistic::boundingRect() const { return QRectF(1280, 0, 320, 1000); }
@@ -65,32 +49,29 @@ void Statistic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
   painter->setPen(Qt::NoPen);
   painter->setBrush(QColor(62, 69, 80));
-  painter->drawRect(QRectF(1290, 140, 300, 800));
+  painter->drawRect(QRectF(1290, 140, 140, 800));
 
   QFont font;
   font.setPointSizeF(15);
   painter->setFont(font);
   painter->setPen(Qt::white);
 
-  painter->drawImage(QRectF(1380, 45, 25, 25), lifeIcon);
-  painter->drawText(QRectF(1420, 40, 100, 50),
+  painter->drawImage(QRectF(1310, 45, 25, 25), lifeIcon);
+  painter->drawText(QRectF(1350, 40, 100, 50),
                     QString::number(life.getCurValue()));
-  painter->drawImage(QRectF(1380, 73, 30, 30), coinIcon);
-  painter->drawText(QRectF(1420, 70, 100, 50),
+  painter->drawImage(QRectF(1310, 73, 30, 30), coinIcon);
+  painter->drawText(QRectF(1350, 70, 100, 50),
                     QString::number(money.getCurValue()));
 
   font.setPointSizeF(9);
   painter->setFont(font);
   painter->setPen(Qt::gray);
-  painter->drawText(QRectF(1540, 5, 100, 50),
-                    QString("%1").arg(FPS, -3) + QString(" FPS"));
+  painter->drawText(QRectF(20, 10, 100, 50), QString("%1 FPS").arg(FPS, -3));
 
-  painter->drawText(
-      QRectF(1500, 880, 100, 50),
-      QString("%1").arg(Enemy::enemyCount, -3) + QString(" enemies"));
-  painter->drawText(
-      QRectF(1500, 900, 100, 50),
-      QString("%1").arg(scene()->items().size(), -3) + QString(" items"));
+  painter->drawText(QRectF(20, 30, 100, 50),
+                    QString("%1 enemies").arg(Enemy::enemyCount, -3));
+  painter->drawText(QRectF(20, 50, 100, 50),
+                    QString("%1 items").arg(scene()->items().size(), -3));
 
   if (game->FPSCounterTimer.hasExpired(1000)) {
     FPS = frameCount;
@@ -105,13 +86,14 @@ void Statistic::advance(int phase) {
       game->endThisGame("GameOver");
     }
 
-    if (FPS < 75) {
+    // performance optimization
+    if (FPS < 60) {
       if (game->spawnTimer.isActive() == true) {
         game->spawnTimer.stop();
       }
     } else {
       if (game->spawnTimer.isActive() == false) {
-        game->spawnTimer.start(2000 / game->gameSpeed);
+        game->spawnTimer.start(1000 / game->gameSpeed);
       }
     }
 

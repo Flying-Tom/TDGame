@@ -7,7 +7,7 @@ rm -rf build && mkdir -p build
 ln -s "${QT_ROOT_DIR}"/lib build/
 
 # build
-cmake -B build . -D CMAKE_BUILD_TYPE=Release
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B build . -D CMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 
 # if macos, deploy and codesign

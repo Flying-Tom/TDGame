@@ -268,13 +268,13 @@ void GameMap::addTower(QString s, QPointF pos) {
         tower = new GunTower(this);
         break;
       case 1:
-        tower = new Bomb(this);
+        tower = new LaserTower(this);
         break;
       case 2:
         tower = new Repeller(this);
         break;
       case 3:
-        tower = new LaserTower(this);
+        tower = new Bomb(this);
         break;
       case 4:
         tower = new MissileTower(this);
@@ -323,20 +323,19 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
   QPoint block = CoordinateToBlock(pos);
   if (IsOccupied(block) == false) {
     pos = BlockToCoordinate(block);
-
     if (towerShadow == nullptr) {
       switch (Shop::map[s]) {
         case 0:
           towerShadow = new GunTower(nullptr);
           break;
         case 1:
-          towerShadow = new Bomb(nullptr);
+          towerShadow = new LaserTower(nullptr);
           break;
         case 2:
           towerShadow = new Repeller(nullptr);
           break;
         case 3:
-          towerShadow = new LaserTower(nullptr);
+          towerShadow = new Bomb(nullptr);
           break;
         case 4:
           towerShadow = new MissileTower(nullptr);
