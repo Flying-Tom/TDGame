@@ -7,11 +7,9 @@
 
 int Statistic::frameCount = 0;
 
-Statistic::Statistic(Game* game)
-    : game(game),
-      shopBackground(":images/shop.png"),
-      lifeIcon(":images/life.png"),
-      coinIcon(":images/coin.png") {
+Statistic::Statistic(Game *game)
+    : game(game), shopBackground(":images/shop.png"),
+      lifeIcon(":images/life.png"), coinIcon(":images/coin.png") {
   setAcceptDrops(false);
   life = GameValue<int>(20, 50);
   money = GameValue<int>(1000000, 1000000);
@@ -21,7 +19,7 @@ Statistic::Statistic(Game* game)
   int shopXoffset = 1300, shopYoffset = 160;
   int shopItemInterval = 96;
   for (int i = 0; i < 8; i++) {
-    Shop* icon = nullptr;
+    Shop *icon = nullptr;
     int shopItemX = 64, shopItemY = 64;
     if (i == 0 || i == 1) {
       // no square icon
@@ -39,8 +37,8 @@ Statistic::Statistic(Game* game)
 
 QRectF Statistic::boundingRect() const { return QRectF(1280, 0, 320, 1000); }
 
-void Statistic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                      QWidget* widget) {
+void Statistic::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                      QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -56,21 +54,21 @@ void Statistic::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
   painter->setFont(font);
   painter->setPen(Qt::white);
 
-  painter->drawImage(QRectF(1310, 45, 25, 25), lifeIcon);
-  painter->drawText(QRectF(1350, 40, 100, 50),
+  painter->drawImage(QRectF(1300, 45, 25, 25), lifeIcon);
+  painter->drawText(QRectF(1340, 40, 100, 50),
                     QString::number(life.getCurValue()));
-  painter->drawImage(QRectF(1310, 73, 30, 30), coinIcon);
-  painter->drawText(QRectF(1350, 70, 100, 50),
+  painter->drawImage(QRectF(1300, 73, 30, 30), coinIcon);
+  painter->drawText(QRectF(1340, 70, 100, 50),
                     QString::number(money.getCurValue()));
 
   font.setPointSizeF(9);
   painter->setFont(font);
   painter->setPen(Qt::gray);
-  painter->drawText(QRectF(20, 10, 100, 50), QString("%1 FPS").arg(FPS, -3));
+  painter->drawText(QRectF(1200, 10, 100, 50), QString("%1 FPS").arg(FPS, -3));
 
-  painter->drawText(QRectF(20, 30, 100, 50),
-                    QString("%1 enemies").arg(Enemy::enemyCount, -3));
-  painter->drawText(QRectF(20, 50, 100, 50),
+  painter->drawText(QRectF(1200, 30, 100, 50),
+                    QString("%1 enemies").arg(enemyNum.getCurValue(), -3));
+  painter->drawText(QRectF(1200, 50, 100, 50),
                     QString("%1 items").arg(scene()->items().size(), -3));
 
   if (game->FPSCounterTimer.hasExpired(1000)) {
@@ -86,15 +84,11 @@ void Statistic::advance(int phase) {
       game->endThisGame("GameOver");
     }
 
-    // performance optimization
-    if (FPS < 60) {
-      if (game->spawnTimer.isActive() == true) {
-        game->spawnTimer.stop();
-      }
+    // self-adaptive spawn speed (performance optimization)
+    if (FPS < 30 || enemyNum.getCurValue() >= enemyNum.getMaxValue()) {
+      game->stopSpawn();
     } else {
-      if (game->spawnTimer.isActive() == false) {
-        game->spawnTimer.start(1000 / game->gameSpeed);
-      }
+      game->startSpawn(false);
     }
 
     if (moneyAddCounter.getCurValue() < moneyAddCounter.getMaxValue()) {

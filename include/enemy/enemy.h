@@ -10,19 +10,19 @@
 class Enemy : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
- public:
+public:
   enum enemyMoveType {
     WALKING = 0,
     FLYING = 1,
   };
-  Enemy(Game* game, QList<QPointF>* path, int money = 0,
+  Enemy(Game *game, QList<QPointF> *path, int money = 0,
         GameValue<qreal> HP = GameValue<qreal>(),
         GameValue<qreal> atk = GameValue<qreal>(),
         GameValue<qreal> speed = GameValue<qreal>(), int moveType = WALKING,
         qreal atkRadius = 0);
   ~Enemy();
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void advance(int phase) override;
   enum { Type = UserType + 2 };
   int type() const override;
@@ -33,7 +33,6 @@ class Enemy : public GameItem {
   void moveForward();
 
   /*setter and getter*/
-
   QPointF getPoint(int index) const;
   QPointF getDest() const;
   int getpointIndex();
@@ -41,8 +40,8 @@ class Enemy : public GameItem {
   bool getIsStopped() const;
   void setIsStopped(bool newIsStopped);
 
- protected:
-  Game* game;
+protected:
+  Game *game;
   QList<QPointF> points;
   QPointF dest;
   int pointIndex;
@@ -59,9 +58,6 @@ class Enemy : public GameItem {
 
   //    int deathCounter;
   GameValue<int> deathCounter;
-
- public:
-  static int enemyCount;
 };
 
-#endif  // INCLUDE_ENEMY_ENEMY_H_
+#endif // INCLUDE_ENEMY_ENEMY_H_

@@ -22,6 +22,22 @@ NJUCS 2021 年秋季学期《高级程序设计》课程项目：基于 Qt 实�
 
 > [DeepWiki](https://deepwiki.com/Flying-Tom/TDGame/), 可供下载的 [Demo](https://github.com/Flying-Tom/TDGame/releases)
 
+## 概览
+
+### 操作
+
+- `ESC` 返回主菜单，`F5` 暂停
+- 方向键 ⬅️ ➡️ 控制游戏速度
+- 方向键 ⬆️ ⬇️ 控制出怪速度
+- 鼠标双击防御塔唤起属性/操作面板
+
+### 截图
+
+|   |   |
+|---|---|
+|![level1.png](doc/figs/level1.png)|![level2.png](doc/figs/level2.png)|
+|![level3.png](doc/figs/level3.png)|![level4.png](doc/figs/level4.png)|
+
 ## 项目结构
 
 采用了Qt的`Graphics View`框架, 包含 4 张地图，7 种防御塔和 8 种敌人
@@ -76,17 +92,6 @@ classDiagram
   Enemy <|-- Spirit
 
 ```
-
-- `ESC` 返回主菜单，`F5` 暂停
-- 方向键 ⬅️ ➡️ 控制游戏速度
-- 鼠标右键唤起防御塔属性面板
-
-## 游戏截图
-
-|   |   |
-|---|---|
-|![level1.png](doc/figs/level1.png)|![level2.png](doc/figs/level2.png)|
-|![level3.png](doc/figs/level3.png)|![level4.png](doc/figs/level4.png)|
 
 ## 如何编译
 

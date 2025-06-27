@@ -2,20 +2,12 @@
 
 #include <enemy/enemy.h>
 
-int Enemy::enemyCount = 0;
-
-Enemy::Enemy(Game* game, QList<QPointF>* path, int money, GameValue<qreal> HP,
+Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
              GameValue<qreal> atk, GameValue<qreal> speed, int moveType,
              qreal atkRadius)
-    : game(game),
-      points(*path),
-      dest(points[1]),
-      pointIndex(1),
-      moveType(moveType),
-      isStopped(false),
-      canAttackMelee(false),
+    : game(game), points(*path), dest(points[1]), pointIndex(1),
+      moveType(moveType), isStopped(false), canAttackMelee(false),
       canAttackRange(false) {
-  ++enemyCount;
   GameItem::HP = HP;
   GameItem::atkRadius = atkRadius;
   GameItem::isDead = false;
@@ -32,14 +24,14 @@ Enemy::Enemy(Game* game, QList<QPointF>* path, int money, GameValue<qreal> HP,
 }
 
 Enemy::~Enemy() {
-  --enemyCount;
+  game->statistic.enemyNum.changeCurValue(-1);
   if (atkTarget.isNull() == false && atkTarget->type() == Tower::Type) {
     atkTarget->blockNumber.changeCurValue(-1);
   }
 }
 
-void Enemy::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                  QWidget* widget) {
+void Enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                  QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -102,10 +94,10 @@ void Enemy::moveForward() {
 }
 
 void Enemy::aquireTarget() {
-  QList<QGraphicsItem*> colliding_items = atkArea->collidingItems();
-  for (QGraphicsItem* item : colliding_items) {
+  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
+  for (QGraphicsItem *item : colliding_items) {
     if (item->type() == Tower::Type) {
-      Tower* t = qgraphicsitem_cast<Tower*>(item);
+      Tower *t = qgraphicsitem_cast<Tower *>(item);
       if ((t->getAtkType() == Tower::RANGE && canAttackRange == false) ||
           (t->getAtkType() == Tower::MELEE && canAttackMelee == false) ||
           (t->blockNumber.getCurValue() >= t->blockNumber.getMaxValue())) {
@@ -170,7 +162,8 @@ void Enemy::advance(int phase) {
       return;
     }
 
-    if (atkTarget.isNull()) aquireTarget();
+    if (atkTarget.isNull())
+      aquireTarget();
     if (atkTarget.isNull() == false) {
       attack();
     }

@@ -13,10 +13,7 @@
 Game::Game(QMainWindow *parent, QString *mapConfig)
     : QGraphicsView(parent),
       // parent(parent),
-      scene(this),
-      map(this, mapConfig),
-      statistic(this),
-      mapConfig(mapConfig),
+      scene(this), map(this, mapConfig), statistic(this), mapConfig(mapConfig),
       BGMplayer(this) {
   /* main UI of the game init */
   scene.setSceneRect(0, 0, GameMap::width + 320, GameMap::height);
@@ -34,22 +31,18 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
 
   scene.addItem(&statistic);
 
-  /* game timer init */
-  gameSpeed = 5;
-
   FPSCounterTimer.start();
 
   connect(&advanceTimer, SIGNAL(timeout()), &scene, SLOT(advance()));
-  connect(&advanceTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
+  connect(&spawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
 
   updateGameSpeed();
 
   /* media init */
-  //    BGMplayer->setMedia(QUrl("xxx/PartyTime.mp3"));
+  // BGMplayer->setMedia(QUrl("xxx/PartyTime.mp3"));
   BGMplayer.play();
 
   /* enemy spawning system based on probability init */
-
   probEnemy = {100, 50, 20, 100, 100, 100, 100, 50};
   probRec = {0};
   for (size_t i = 1; i <= probEnemy.size(); i++) {
@@ -72,6 +65,7 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
   });
   enemyLambda.emplace_back(
       [&](Enemy *&enemy) { enemy = new Ghost(this, &map.walkingPath); });
+
   enemyLambda.emplace_back([&](Enemy *&enemy) {
     if (QRandomGenerator::global()->bounded(0, 15) < 15) {
       QList<QPointF> path;
@@ -91,11 +85,8 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
     }
   });
 
-  /* actually spawn the enemies */
-  //    Enemy *enemy = new RobotSoldier(this, map.path);
-  //    scene.addItem(enemy);
-
-  createEnemy(1000, 500);
+  statistic.enemyNum.setCurValue(0);
+  enemyWave(50);
 }
 
 Game::~Game() {}
@@ -131,70 +122,81 @@ void Game::endThisGame(QString s) {
   deleteLater();
 }
 
-void Game::updateGameSpeed() {
-  advanceTimer.start(50 / gameSpeed);
+void Game::updateGameSpeed() { advanceTimer.start(500 / gameSpeed); }
 
-  //    if (spawnTimer.isActive() == true) {
-  //        spawnTimer.start(1000 / gameSpeed);
-  //    }
-}
+bool Game::isPaused() const { return !advanceTimer.isActive(); }
 
-void Game::createEnemy(int num, int interval) {
-  enemyNum = 0;
-  enemyMaxnum = num;
-
-  spawnTimer.start(interval / gameSpeed);
+void Game::enemyWave(int maxNum) {
+  statistic.enemyNum.setMaxValue(maxNum);
+  startSpawn();
 }
 
 void Game::spawnEnemy() {
-  static int count = 0;
-  if (count < 100) {
-    count++;
-  } else {
-    Enemy *enemy = nullptr;
-    enemyLambda[RandEnemyIndex()](enemy);
+  Enemy *enemy = nullptr;
+  enemyLambda[randEnemyIndex()](enemy);
 
-    scene.addItem(enemy);
-    count = 0;
+  statistic.enemyNum.changeCurValue(1);
+  scene.addItem(enemy);
+}
+
+void Game::startSpawn(bool force) {
+  if (!force && spawnTimer.isActive()) {
+    return;
+  }
+  spawnTimer.start(100000 / spawnSpeed);
+}
+void Game::stopSpawn() {
+  if (spawnTimer.isActive()) {
+    spawnTimer.stop();
   }
 }
 
-int Game::RandEnemyIndex() {
+int Game::randEnemyIndex() {
   int index = QRandomGenerator::global()->bounded(0, probSum + 1);
-  for (size_t i = 0; i < probRec.size(); i++) {
-    if (probRec[i] <= index && index < probRec[i + 1]) return i;
+  for (size_t i = 0; i < probRec.size() - 1; i++) {
+    if (probRec[i] <= index && index < probRec[i + 1]) {
+      return i;
+    }
   }
   return 0;
 }
 
 void Game::keyPressEvent(QKeyEvent *event) {
   switch (event->key()) {
-    case Qt::Key_N:
-      createEnemy(500, 50);
-      break;
-    case Qt::Key_T:
-      createEnemy(5000, 1000);
-      break;
-    case Qt::Key_Left:
-      gameSpeed = std::max(1, gameSpeed / 2);
-      updateGameSpeed();
-      break;
-    case Qt::Key_Right:
-      gameSpeed = std::min(10, gameSpeed * 2);
-      updateGameSpeed();
-      break;
-    case Qt::Key_F5:
-      if (advanceTimer.isActive()) {
-        advanceTimer.stop();
-        statistic.setEnabled(false);
-        scene.advance();
-      } else {
-        statistic.setEnabled(true);
-        advanceTimer.start();
-      }
-      break;
-    default:
-      event->ignore();
-      break;
+  case Qt::Key_N:
+    enemyWave(100);
+    break;
+  case Qt::Key_T:
+    enemyWave(200);
+    break;
+  case Qt::Key_Left:
+    gameSpeed = std::max(20, gameSpeed - 10);
+    updateGameSpeed();
+    break;
+  case Qt::Key_Right:
+    gameSpeed = std::min(100, gameSpeed + 10);
+    updateGameSpeed();
+    break;
+  case Qt::Key_Up:
+    spawnSpeed = std::min(100, spawnSpeed + 10);
+    startSpawn(true);
+    break;
+  case Qt::Key_Down:
+    spawnSpeed = std::max(20, spawnSpeed - 10);
+    startSpawn(true);
+    break;
+  case Qt::Key_F5:
+    if (advanceTimer.isActive()) {
+      advanceTimer.stop();
+      statistic.setEnabled(false);
+      scene.advance();
+    } else {
+      statistic.setEnabled(true);
+      advanceTimer.start();
+    }
+    break;
+  default:
+    event->ignore();
+    break;
   }
 }

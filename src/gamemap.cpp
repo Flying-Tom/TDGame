@@ -18,8 +18,7 @@
 static int blockWidthNumber = 16;
 static int blockHeightNumber = 12;
 
-template <typename Val>
-Val bounded(Val minx, Val x, Val maxx) {
+template <typename Val> Val bounded(Val minx, Val x, Val maxx) {
   if (x < minx)
     x = minx;
   else if (x > maxx)
@@ -27,11 +26,9 @@ Val bounded(Val minx, Val x, Val maxx) {
   return x;
 }
 
-GameMap::GameMap(Game* game, QString* mapConfig)
-    : game(game),
-      mapConfig(mapConfig),
-      destinationMovie(":/images/startbutton.gif"),
-      towerShadow(nullptr) {
+GameMap::GameMap(Game *game, QString *mapConfig)
+    : game(game), mapConfig(mapConfig),
+      destinationMovie(":/images/startbutton.gif"), towerShadow(nullptr) {
   setAcceptDrops(true);
 
   loadConfig();
@@ -88,11 +85,11 @@ bool GameMap::IsRoad(QPoint p) { return isroad[p.x()][p.y()]; }
 
 bool GameMap::IsOccupied(QPoint p) { return isoccupied[p.x()][p.y()]; }
 
-QGraphicsItem* GameMap::ItemOccupied(QPoint p) {
+QGraphicsItem *GameMap::ItemOccupied(QPoint p) {
   return itemoccupied[p.x()][p.y()];
 }
 
-void GameMap::Occupy(QGraphicsItem* item, QPointF pos) {
+void GameMap::Occupy(QGraphicsItem *item, QPointF pos) {
   QPoint p = CoordinateToBlock(pos);
   itemoccupied[p.x()][p.y()] = item;
   isoccupied[p.x()][p.y()] = true;
@@ -111,8 +108,8 @@ void GameMap::Destory(QPointF pos) {
 
 QRectF GameMap::boundingRect() const { return QRectF(0, 0, width, height); }
 
-void GameMap::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                    QWidget* widget) {
+void GameMap::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                    QWidget *widget) {
   Q_UNUSED(painter)
   Q_UNUSED(option)
   Q_UNUSED(widget)
@@ -136,7 +133,7 @@ void GameMap::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
                                 r.height()));
   }
 
-  if (game->advanceTimer.isActive() == false) {
+  if (game->isPaused()) {
     painter->drawImage(QRectF(720 - 64, 480 - 64, 128, 128),
                        QImage(":/images/pause.png"));
   }
@@ -149,12 +146,12 @@ void GameMap::advance(int phase) {
   }
 }
 
-bool GameMap::outofScreen(QGraphicsItem* p) {
+bool GameMap::outofScreen(QGraphicsItem *p) {
   return !(((0 <= p->pos().x()) && (p->pos().x() <= width)) &&
            ((0 <= p->pos().y()) && (p->pos().y() <= height)));
 }
 
-void GameMap::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void GameMap::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 #ifdef MAPGENERATING
   QPoint p = CoordinateToBlock(event->pos());
   pointCount.insert({p.x(), p.y()});
@@ -163,7 +160,7 @@ void GameMap::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   event->ignore();
 }
 
-void GameMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event) {
+void GameMap::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
   if (event->mimeData()->hasText()) {
     event->setAccepted(true);
     update();
@@ -172,17 +169,18 @@ void GameMap::dragEnterEvent(QGraphicsSceneDragDropEvent* event) {
   }
 }
 
-void GameMap::dragMoveEvent(QGraphicsSceneDragDropEvent* event) {
+void GameMap::dragMoveEvent(QGraphicsSceneDragDropEvent *event) {
   if (event->mimeData()->hasText()) {
     QString s = event->mimeData()->text();
     addTowerShadow(s, event->pos());
 #ifdef MAPGENERATING
-    if (s == "guntower") addTower(s, event->pos());
+    if (s == "guntower")
+      addTower(s, event->pos());
 #endif
   }
 }
 
-void GameMap::dropEvent(QGraphicsSceneDragDropEvent* event) {
+void GameMap::dropEvent(QGraphicsSceneDragDropEvent *event) {
   if (event->mimeData()->hasText()) {
     QString s = event->mimeData()->text();
     addTower(s, event->pos());
@@ -209,8 +207,8 @@ void GameMap::loadConfig() {
   mapImage = QImage(ConfigIni.value("/map/image").toString());
 
   char buf[65536];
-  char* point = nullptr;
-  char* save_ptr = NULL;
+  char *point = nullptr;
+  char *save_ptr = NULL;
   memset(buf, '\0', sizeof(buf));
   strncpy(buf,
           ConfigIni.value("/path/walkingPathPoints")
@@ -262,35 +260,35 @@ void GameMap::addTower(QString s, QPointF pos) {
   if (IsOccupied(block) == false) {
     pos = BlockToCoordinate(block);
 
-    Tower* tower = nullptr;
+    Tower *tower = nullptr;
     switch (Shop::map[s]) {
-      case 0:
-        tower = new GunTower(this);
-        break;
-      case 1:
-        tower = new LaserTower(this);
-        break;
-      case 2:
-        tower = new Repeller(this);
-        break;
-      case 3:
-        tower = new Bomb(this);
-        break;
-      case 4:
-        tower = new MissileTower(this);
-        break;
-      case 5:
-        tower = new SawTooth(this);
-        break;
-      case 6:
-        tower = new CampFire(this);
-        break;
-      case 7:
-        tower = new Shield(this);
-        break;
-      default:
-        assert(false);
-        break;
+    case 0:
+      tower = new GunTower(this);
+      break;
+    case 1:
+      tower = new LaserTower(this);
+      break;
+    case 2:
+      tower = new Repeller(this);
+      break;
+    case 3:
+      tower = new Bomb(this);
+      break;
+    case 4:
+      tower = new MissileTower(this);
+      break;
+    case 5:
+      tower = new SawTooth(this);
+      break;
+    case 6:
+      tower = new CampFire(this);
+      break;
+    case 7:
+      tower = new Shield(this);
+      break;
+    default:
+      assert(false);
+      break;
     }
 
     if ((tower->getAtkType() == Tower::MELEE && IsRoad(block) == false) ||
@@ -312,7 +310,7 @@ void GameMap::addTower(QString s, QPointF pos) {
     tower->infopanel.hide();
     Occupy(tower, tower->pos());
   } else {
-    Tower* t = qgraphicsitem_cast<Tower*>(ItemOccupied(block));
+    Tower *t = qgraphicsitem_cast<Tower *>(ItemOccupied(block));
     if (s == QString("repeller") && t->getName() == QString("repeller")) {
       t->HP.setCurValue(t->HP.getMaxValue());
     }
@@ -325,34 +323,34 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
     pos = BlockToCoordinate(block);
     if (towerShadow == nullptr) {
       switch (Shop::map[s]) {
-        case 0:
-          towerShadow = new GunTower(nullptr);
-          break;
-        case 1:
-          towerShadow = new LaserTower(nullptr);
-          break;
-        case 2:
-          towerShadow = new Repeller(nullptr);
-          break;
-        case 3:
-          towerShadow = new Bomb(nullptr);
-          break;
-        case 4:
-          towerShadow = new MissileTower(nullptr);
-          break;
-        case 5:
-          towerShadow = new SawTooth(this);
-          break;
-        case 6:
-          towerShadow = new CampFire(this);
-          break;
-        case 7:
-          towerShadow = new Shield(this);
-          break;
-        default:
-          qDebug() << Shop::map[s];
-          assert(false);
-          break;
+      case 0:
+        towerShadow = new GunTower(nullptr);
+        break;
+      case 1:
+        towerShadow = new LaserTower(nullptr);
+        break;
+      case 2:
+        towerShadow = new Repeller(nullptr);
+        break;
+      case 3:
+        towerShadow = new Bomb(nullptr);
+        break;
+      case 4:
+        towerShadow = new MissileTower(nullptr);
+        break;
+      case 5:
+        towerShadow = new SawTooth(this);
+        break;
+      case 6:
+        towerShadow = new CampFire(this);
+        break;
+      case 7:
+        towerShadow = new Shield(this);
+        break;
+      default:
+        qDebug() << Shop::map[s];
+        assert(false);
+        break;
       }
     }
 
@@ -367,8 +365,9 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
 
 void GameMap::removeTower(QPointF pos) {
   QPoint block = CoordinateToBlock(pos);
-  if (IsOccupied(block) == false) return;
-  Tower* t = qgraphicsitem_cast<Tower*>(ItemOccupied(block));
+  if (IsOccupied(block) == false)
+    return;
+  Tower *t = qgraphicsitem_cast<Tower *>(ItemOccupied(block));
   game->statistic.money.changeCurValue(Shop::cost[Shop::map[t->getName()]] / 2);
 
   Destory(block);

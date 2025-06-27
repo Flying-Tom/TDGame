@@ -12,42 +12,44 @@
 class Game : public QGraphicsView {
   Q_OBJECT
 
- public:
-  explicit Game(QMainWindow* parent, QString* mapConfig = 0);
-  ~Game();
+  int gameSpeed = 50;
+  int spawnSpeed = 50;
+  int probSum;
 
- public:
-  QMainWindow* parent;
-  QGraphicsScene scene;
-  GameMap map;
-  Statistic statistic;
-  QString* mapConfig;
-
-  int enemyNum;
-  int enemyMaxnum;
-
-  void createEnemy(int num, int interval);
-  void updateGameSpeed();
-  void keyPressEvent(QKeyEvent* event) override;
- signals:
-  void GameOver();
- public slots:
-  void spawnEnemy();
-  void endThisGame(QString);
-
- public:
-  int gameSpeed;
   QTimer spawnTimer;
   QTimer advanceTimer;
-  QElapsedTimer FPSCounterTimer;
-
   QMediaPlayer BGMplayer;
 
   std::vector<int> probEnemy;
   std::vector<int> probRec;
-  std::vector<std::function<void(Enemy*&)>> enemyLambda;
-  int probSum;
-  int RandEnemyIndex();
+  std::vector<std::function<void(Enemy *&)>> enemyLambda;
+
+public:
+  explicit Game(QMainWindow *parent, QString *mapConfig = 0);
+  ~Game();
+
+public:
+  QMainWindow *parent;
+  QGraphicsScene scene;
+  GameMap map;
+  Statistic statistic;
+  QString *mapConfig;
+  QElapsedTimer FPSCounterTimer;
+
+  int randEnemyIndex();
+  bool isPaused() const;
+  void enemyWave(int num);
+  void updateGameSpeed();
+  void keyPressEvent(QKeyEvent *event) override;
+
+signals:
+  void GameOver();
+public slots:
+  void spawnEnemy();
+  void startSpawn(bool force = false);
+  void stopSpawn();
+  void endThisGame(QString);
+  // int RandEnemyIndex();
 };
 
-#endif  // INCLUDE_GAME_H_
+#endif // INCLUDE_GAME_H_
