@@ -29,8 +29,8 @@ void GunBullet::advance(int phase) {
     QList<QGraphicsItem *> items = collidingItems();
     if (!items.empty()) {
       for (QGraphicsItem *item : items) {
-        if (item->type() == Enemy::Type) {
-          Enemy *e = qgraphicsitem_cast<Enemy *>(item);
+        Enemy *e = Enemy::castItem(item);
+        if (e != nullptr) {
           e->HP.changeCurValue(-atk);
           e->underAtk = true;
           delete this;

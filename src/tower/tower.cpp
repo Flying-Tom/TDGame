@@ -83,13 +83,19 @@ QImage Tower::getImage() const { return image; }
 int Tower::getAtkType() const { return atkType; }
 
 void Tower::aquireTarget() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-  for (QGraphicsItem *item : colliding_items) {
-    if (item->type() == Enemy::Type &&
-        qgraphicsitem_cast<Enemy *>(item)->getIsDead() == false) {
-      atkTarget = qgraphicsitem_cast<Enemy *>(item);
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr && !e->getIsDead()) {
+      atkTarget = e;
     }
   }
 }
 
 void Tower::attack() {}
+
+Tower *Tower::castItem(QGraphicsItem *gi) {
+  if (gi->type() == GameItemType::TOWER) {
+    return qgraphicsitem_cast<Tower *>(gi);
+  }
+  return nullptr;
+}

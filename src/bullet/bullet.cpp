@@ -25,3 +25,10 @@ void Bullet::advance(int phase) {
 int Bullet::type() const { return Type; }
 
 void Bullet::moveForward() {}
+
+Bullet *Bullet::castItem(QGraphicsItem *gi) {
+  if (gi->type() == GameItemType::BULLET) {
+    return qgraphicsitem_cast<Bullet *>(gi);
+  }
+  return nullptr;
+}

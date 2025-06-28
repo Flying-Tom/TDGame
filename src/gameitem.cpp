@@ -66,3 +66,7 @@ void GameItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
   }
   atkArea->hide();
 }
+
+bool GameItem::isTower() { return this->type() == GameItemType::TOWER; };
+bool GameItem::isEnemy() { return this->type() == GameItemType::ENEMY; };
+bool GameItem::isBullet() { return this->type() == GameItemType::BULLET; };

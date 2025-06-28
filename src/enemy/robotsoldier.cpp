@@ -7,7 +7,7 @@
 RobotSoldier::RobotSoldier(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 50, GameValue<qreal>(3000, 3000),
             GameValue<qreal>(10, 10), GameValue<qreal>(0.25, 0.25),
-            enemyMoveType::WALKING, 200),
+            EnemyMoveType::WALKING, 200),
       atkSpeed(50) {
   movie.setFileName(":/images/robotsoldier.gif");
   movie.start();
@@ -85,7 +85,8 @@ QPainterPath RobotSoldier::shape() const {
 void RobotSoldier::attack() {
   atkTarget->HP.changeCurValue(-0.05 * (qreal)atkSpeed / 100.0);
   atkTarget->underAtk = true;
-  if (qgraphicsitem_cast<Tower *>(atkTarget.data())->HP.getCurValue() <= 0) {
+  Tower *t = Tower::castItem(atkTarget.data());
+  if (t != nullptr && t->HP.getCurValue() <= 0) {
     isStopped = false;
     atkSpeed = 50;
   }

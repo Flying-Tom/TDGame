@@ -44,20 +44,20 @@ void Bomb::advance(int phase) {
 }
 
 void Bomb::bombing() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-  if (!colliding_items.empty()) {
-    for (QGraphicsItem *item : colliding_items) {
-      if (item->type() == Enemy::Type) {
-        Enemy *e = qgraphicsitem_cast<Enemy *>(item);
-        if (e->getMoveType() == enemyMoveType::WALKING)
-          e->HP.setCurValue(0);
-      } else if (item->type() == Tower::Type) {
-        GameItem *gi = qgraphicsitem_cast<GameItem *>(item);
-        if (gi->getName() == QString("bomb") ||
-            gi->getName() == QString("repeller")) {
-          gi->HP.setCurValue(0);
-        }
-      }
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr && e->getMoveType() == EnemyMoveType::WALKING) {
+      e->HP.setCurValue(0);
+      return;
+    }
+
+    Tower *t = Tower::castItem(item);
+    if (t != nullptr && t->getAtkType() == TowerAtkType::MELEE) {
+      e->HP.setCurValue(0);
+      // QString eName = e->getName();
+      // if (eName == "bomb" || eName == "repeller") {
+      //   e->HP.setCurValue(0);
+      // }
     }
   }
 }

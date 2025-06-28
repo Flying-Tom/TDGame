@@ -292,9 +292,9 @@ void GameMap::addTower(QString s, QPointF pos) {
       break;
     }
 
-    if ((tower->getAtkType() == towerAtkType::MELEE &&
+    if ((tower->getAtkType() == TowerAtkType::MELEE &&
          IsRoad(block) == false) ||
-        (tower->getAtkType() == towerAtkType::RANGE && IsRoad(block) == true)) {
+        (tower->getAtkType() == TowerAtkType::RANGE && IsRoad(block) == true)) {
       delete tower;
       return;
     }
@@ -312,8 +312,10 @@ void GameMap::addTower(QString s, QPointF pos) {
     tower->infopanel.hide();
     Occupy(tower, tower->pos());
   } else {
-    Tower *t = qgraphicsitem_cast<Tower *>(ItemOccupied(block));
-    if (s == QString("repeller") && t->getName() == QString("repeller")) {
+    // If the tower is a repeller, restore its HP
+    QString repellerName = "repeller";
+    Tower *t = Tower::castItem(ItemOccupied(block));
+    if (t != nullptr && s == repellerName && t->getName() == repellerName) {
       t->HP.setCurValue(t->HP.getMaxValue());
     }
   }
@@ -356,9 +358,9 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
       }
     }
 
-    if ((towerShadow->getAtkType() == towerAtkType::MELEE &&
+    if ((towerShadow->getAtkType() == TowerAtkType::MELEE &&
          IsRoad(block) == true) ||
-        (towerShadow->getAtkType() == towerAtkType::RANGE &&
+        (towerShadow->getAtkType() == TowerAtkType::RANGE &&
          IsRoad(block) == false)) {
       QRectF r = towerShadow->boundingRect();
       towerShadowRect =
@@ -371,8 +373,10 @@ void GameMap::removeTower(QPointF pos) {
   QPoint block = CoordinateToBlock(pos);
   if (IsOccupied(block) == false)
     return;
-  Tower *t = qgraphicsitem_cast<Tower *>(ItemOccupied(block));
-  game->statistic.money.changeCurValue(Shop::cost[Shop::map[t->getName()]] / 2);
-
+  Tower *t = Tower::castItem(ItemOccupied(block));
+  if (t != nullptr) {
+    game->statistic.money.changeCurValue(Shop::cost[Shop::map[t->getName()]] /
+                                         2);
+  }
   Destory(block);
 }

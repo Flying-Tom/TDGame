@@ -5,9 +5,6 @@
 #include <common.h>
 #include <gamemap.h>
 #include <statistic.h>
-// #include <mainwindow.h>
-
-#include <vector>
 
 class Game : public QGraphicsView {
   Q_OBJECT
@@ -20,9 +17,9 @@ class Game : public QGraphicsView {
   QTimer advanceTimer;
   QMediaPlayer BGMplayer;
 
-  std::vector<int> probEnemy;
-  std::vector<int> probRec;
-  std::vector<std::function<void(Enemy *&)>> enemyLambda;
+  QVector<int> probEnemy;
+  QVector<int> probRec;
+  QVector<std::function<void(Enemy *&)>> enemyLambda;
 
 public:
   explicit Game(QMainWindow *parent, QString *mapConfig = 0);

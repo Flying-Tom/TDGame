@@ -59,8 +59,8 @@ void Missile::advance(int phase) {
       QList<QGraphicsItem *> items = collidingItems();
       if (!items.empty()) {
         for (QGraphicsItem *item : items) {
-          if (item->type() == Enemy::Type &&
-              qgraphicsitem_cast<Enemy *>(item)->getIsDead() == false) {
+          Enemy *e = Enemy::castItem(item);
+          if (e != nullptr && !e->getIsDead()) {
             isBombing = true;
             bombArea = new QGraphicsEllipseItem(this);
             bombArea->setPen(Qt::NoPen);
@@ -91,8 +91,8 @@ void Missile::moveForward() {
 void Missile::bombing() {
   QList<QGraphicsItem *> items = bombArea->collidingItems();
   for (QGraphicsItem *item : items) {
-    if (item->type() == Enemy::Type) {
-      Enemy *e = qgraphicsitem_cast<Enemy *>(item);
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr && !e->getIsDead()) {
       e->HP.changeCurValue(-atk);
       e->underAtk = true;
     }

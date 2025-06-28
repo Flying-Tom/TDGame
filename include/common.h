@@ -5,6 +5,8 @@
 class GameItem;
 class Enemy;
 class Tower;
+class Bullet;
+
 class GameMap;
 class InfoPanel;
 class Game;

@@ -7,7 +7,7 @@
 FallenWarrior::FallenWarrior(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 30, GameValue<qreal>(200, 200),
             GameValue<qreal>(500, 500), GameValue<qreal>(2, 2),
-            enemyMoveType::WALKING, 60) {
+            EnemyMoveType::WALKING, 60) {
   movie.setFileName(":/images/fallenwarrior.gif");
   movie.setCacheMode(QMovie::CacheAll);
   movie.start();

@@ -37,6 +37,8 @@ public:
   void attack() override;
   int getAtkType() const;
   QImage getImage() const;
+
+  static Tower *castItem(QGraphicsItem *gi);
 };
 
 const QRectF rectangularModel(-32, -64, 64, 128);

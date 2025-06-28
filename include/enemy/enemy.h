@@ -35,6 +35,7 @@ public:
   int getMoveType() const;
   bool getIsStopped() const;
   void setIsStopped(bool newIsStopped);
+  static Enemy *castItem(QGraphicsItem *gi);
 
 protected:
   Game *game;

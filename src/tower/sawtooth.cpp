@@ -30,12 +30,10 @@ void SawTooth::advance(int phase) {
     QList<QGraphicsItem *> items = collidingItems();
     if (!items.empty()) {
       for (QGraphicsItem *item : items) {
-        if (item->type() == Enemy::Type) {
-          Enemy *e = qgraphicsitem_cast<Enemy *>(item);
-          if (e->getMoveType() == enemyMoveType::WALKING) {
-            e->HP.changeCurValue(-0.5);
-            e->underAtk = true;
-          }
+        Enemy *e = Enemy::castItem(item);
+        if (e != nullptr && e->getMoveType() == EnemyMoveType::WALKING) {
+          e->HP.changeCurValue(-0.5);
+          e->underAtk = true;
         }
       }
     }

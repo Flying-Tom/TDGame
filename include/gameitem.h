@@ -48,6 +48,15 @@ public:
   QGraphicsRectItem *HPMeter;
   bool underAtk;
   GameValue<int> blinkCounter;
+
+public:
+  bool isTower();
+  bool isEnemy();
+  bool isBullet();
+
+
+
+
 };
 
 enum GameItemType {
@@ -56,12 +65,12 @@ enum GameItemType {
   BULLET = QGraphicsItem::UserType + 4,
 };
 
-enum enemyMoveType {
+enum EnemyMoveType {
   WALKING = 0,
   FLYING = 1,
 };
 
-enum towerAtkType {
+enum TowerAtkType {
   MELEE = 0,
   RANGE = 1,
 };

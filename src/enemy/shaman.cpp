@@ -5,7 +5,7 @@
 Shaman::Shaman(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 50, GameValue<qreal>(200, 200),
             GameValue<qreal>(100, 100), GameValue<qreal>(1, 100),
-            enemyMoveType::WALKING, 150) {
+            EnemyMoveType::WALKING, 150) {
   movie.setFileName(":/images/shaman.gif");
   movie.start();
 
@@ -35,14 +35,13 @@ QPainterPath Shaman::shape() const {
 }
 
 void Shaman::aquireTarget() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-  for (QGraphicsItem *item : colliding_items) {
-    if (item->type() == Enemy::Type) {
-      if (qgraphicsitem_cast<Enemy *>(item)->HP.getMaxValue() ==
-          qgraphicsitem_cast<Enemy *>(item)->HP.getCurValue()) {
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr) {
+      if (e->HP.getMaxValue() == e->HP.getCurValue()) {
         continue;
       } else {
-        atkTarget = qgraphicsitem_cast<Enemy *>(item);
+        atkTarget = e;
         break;
       }
     }
@@ -65,7 +64,10 @@ void Shaman::attack() {
       atkMovie.currentFrameNumber() == atkMovie.frameCount() - 1) {
     if (atkTarget != this) {
       speed.setCurValue(atkTarget->speed.getCurValue());
-      isStopped = qgraphicsitem_cast<Enemy *>(atkTarget.data())->getIsStopped();
+      Enemy *e = Enemy::castItem(atkTarget.data());
+      if (e != nullptr) {
+        isStopped = e->getIsStopped();
+      }
     }
     atkTarget->HP.changeCurValue(atk.getCurValue());
     atkMovie.jumpToNextFrame();

@@ -29,23 +29,21 @@ void Laser::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Laser::advance(int phase) {
   Bullet::advance(phase);
   if (!phase) {
-    QList<QGraphicsItem *> items = collidingItems();
-    if (!items.empty()) {
-      bool selfdestroy = true;
-      for (QGraphicsItem *item : items) {
-        if (item->type() == Enemy::Type) {
-          Enemy *e = qgraphicsitem_cast<Enemy *>(item);
-          e->HP.changeCurValue(-atk);
-          e->underAtk = true;
-          if (e->HP.getCurValue() > 0)
-            selfdestroy = false;
+    bool selfdestroy = true;
+    for (QGraphicsItem *item : collidingItems()) {
+      Enemy *e = Enemy::castItem(item);
+      if (e != nullptr) {
+        e->HP.changeCurValue(-atk);
+        e->underAtk = true;
+        if (e->HP.getCurValue() > 0) {
+          selfdestroy = false;
         }
       }
+    }
 
-      if (selfdestroy == true) {
-        delete this;
-        return;
-      }
+    if (selfdestroy == true) {
+      delete this;
+      return;
     }
   }
 }

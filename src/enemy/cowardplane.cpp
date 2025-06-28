@@ -8,7 +8,7 @@
 CowardPlane::CowardPlane(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 100, GameValue<qreal>(500, 500),
             GameValue<qreal>(500, 500), GameValue<qreal>(1.5, 6),
-            enemyMoveType::FLYING, 200) {
+            EnemyMoveType::FLYING, 200) {
   movie.setFileName(":/images/cowardplane.gif");
   movie.start();
 
@@ -38,18 +38,17 @@ void CowardPlane::advance(int phase) {
       return;
     }
 
-    QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-    for (QGraphicsItem *item : colliding_items) {
-      if (item->type() == GameItemType::TOWER) {
-        Tower *t = qgraphicsitem_cast<Tower *>(item);
-        if (t->getAtkType() == towerAtkType::RANGE) {
-          speed.setCurValue(4.5);
-          movie.setSpeed(450);
-          moveForward();
-          return;
-        }
+    for (QGraphicsItem *item : atkArea->collidingItems()) {
+      Tower *t = Tower::castItem(item);
+      if (t != nullptr && t->getAtkType() == TowerAtkType::RANGE) {
+        speed.setCurValue(4.5);
+        movie.setSpeed(450);
+        moveForward();
+        return;
       }
-      if (item->type() == GameItemType::BULLET) {
+
+      Bullet *b = Bullet::castItem(item);
+      if (b != nullptr) {
         speed.setCurValue(4.5);
         movie.setSpeed(450);
         moveForward();

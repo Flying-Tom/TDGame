@@ -13,21 +13,18 @@ MissileTower::MissileTower(GameMap *map)
 MissileTower::~MissileTower() {}
 
 void MissileTower::aquireTarget() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-  QList<QGraphicsItem *> enemy_list = QList<QGraphicsItem *>();
+  QList<Enemy *> enemy_list = QList<Enemy *>();
 
-  for (QGraphicsItem *item : colliding_items) {
-    if (item->type() == Enemy::Type &&
-        qgraphicsitem_cast<Enemy *>(item)->getIsDead() == false) {
-      enemy_list.append(item);
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr && !e->getIsDead()) {
+      enemy_list.append(e);
     }
   }
 
-  if (enemy_list.empty()) {
-    return;
-  } else {
+  if (!enemy_list.empty()) {
     int index = QRandomGenerator::global()->bounded(0, enemy_list.size());
-    atkTarget = qgraphicsitem_cast<Enemy *>(enemy_list[index]);
+    atkTarget = enemy_list[index];
     attack();
   }
 }

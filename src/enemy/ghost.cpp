@@ -5,7 +5,7 @@
 Ghost::Ghost(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 50, GameValue<qreal>(500, 500),
             GameValue<qreal>(10, 10), GameValue<qreal>(1.5, 1.5),
-            enemyMoveType::WALKING, 60) {
+            EnemyMoveType::WALKING, 60) {
   movie.setFileName(":/images/ghost.gif");
   movie.start();
 

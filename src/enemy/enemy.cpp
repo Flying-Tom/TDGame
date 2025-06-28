@@ -27,7 +27,7 @@ Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
 
 Enemy::~Enemy() {
   game->statistic.enemyNum.changeCurValue(-1);
-  if (atkTarget.isNull() == false && atkTarget->type() == GameItemType::TOWER) {
+  if (atkTarget.isNull() == false && atkTarget->type() == Tower::Type) {
     atkTarget->blockNumber.changeCurValue(-1);
   }
 }
@@ -96,12 +96,11 @@ void Enemy::moveForward() {
 }
 
 void Enemy::aquireTarget() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-  for (QGraphicsItem *item : colliding_items) {
-    if (item->type() == GameItemType::TOWER) {
-      Tower *t = qgraphicsitem_cast<Tower *>(item);
-      if ((t->getAtkType() == towerAtkType::RANGE && canAttackRange == false) ||
-          (t->getAtkType() == towerAtkType::MELEE && canAttackMelee == false) ||
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Tower *t = Tower::castItem(item);
+    if (t != nullptr) {
+      if ((t->getAtkType() == TowerAtkType::RANGE && canAttackRange == false) ||
+          (t->getAtkType() == TowerAtkType::MELEE && canAttackMelee == false) ||
           (t->blockNumber.getCurValue() >= t->blockNumber.getMaxValue())) {
         continue;
       } else {
@@ -180,3 +179,10 @@ void Enemy::advance(int phase) {
 }
 
 int Enemy::type() const { return Type; }
+
+Enemy *Enemy::castItem(QGraphicsItem *gi) {
+  if (gi->type() == GameItemType::ENEMY) {
+    return qgraphicsitem_cast<Enemy *>(gi);
+  }
+  return nullptr;
+}

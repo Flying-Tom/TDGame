@@ -29,15 +29,12 @@ void Shield::advance(int phase) {
     }
 
     for (QGraphicsItem *item : atkArea->collidingItems()) {
-      if (item->type() == Tower::Type &&
-          qgraphicsitem_cast<Tower *>(item)->getAtkType() ==
-              towerAtkType::RANGE &&
-          item != this) {
-        if (qgraphicsitem_cast<Tower *>(item)->getName() != "shield" &&
-            qgraphicsitem_cast<Tower *>(item)->HP.getCurValue() > 0) {
-          double delta = qgraphicsitem_cast<Tower *>(item)->HP.getMaxValue() -
-                         qgraphicsitem_cast<Tower *>(item)->HP.getCurValue();
-          qgraphicsitem_cast<Tower *>(item)->HP.changeCurValue(delta);
+      Tower *t = Tower::castItem(item);
+      if (t != nullptr && item != this &&
+          t->getAtkType() == TowerAtkType::RANGE) {
+        if (t->getName() != "shield" && t->HP.getCurValue() > 0) {
+          double delta = t->HP.getMaxValue() - t->HP.getCurValue();
+          t->HP.changeCurValue(delta);
           HP.changeCurValue(-delta);
         }
       }

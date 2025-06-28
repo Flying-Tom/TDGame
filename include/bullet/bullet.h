@@ -23,6 +23,9 @@ protected:
   QImage image;
   qreal atk;
   qreal speed;
+
+public:
+  static Bullet *castItem(QGraphicsItem *gi);
 };
 
 #endif // INCLUDE_BULLET_BULLET_H_

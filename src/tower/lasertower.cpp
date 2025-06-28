@@ -53,12 +53,10 @@ void LaserTower::setTrajectory(Laser *newTrajectory) {
 }
 
 void LaserTower::aquireTarget() {
-  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
-
-  for (QGraphicsItem *item : colliding_items) {
-    Enemy *e = qgraphicsitem_cast<Enemy *>(item);
-    if (item->type() == Enemy::Type &&
-        e->getMoveType() == enemyMoveType::WALKING && e->getIsDead() == false) {
+  for (QGraphicsItem *item : atkArea->collidingItems()) {
+    Enemy *e = Enemy::castItem(item);
+    if (e != nullptr && !e->getIsDead() &&
+        e->getMoveType() == EnemyMoveType::WALKING) {
       atkTarget = e;
       attack();
       return;
