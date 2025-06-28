@@ -2,30 +2,29 @@
 #ifndef INCLUDE_BULLET_BULLET_H_
 #define INCLUDE_BULLET_BULLET_H_
 
-#include <common.h>
 #include <gameitem.h>
-#include <gamemap.h>
 
 class Bullet : public QObject, public QGraphicsItem {
   Q_OBJECT
   Q_INTERFACES(QGraphicsItem)
 public:
   Bullet();
+
+  enum { Type = GameItemType::BULLET };
+  int type() const override;
   QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;
-  enum { Type = GameItemType::BULLET };
-  int type() const override;
+
   virtual void moveForward();
+
+  static Bullet *castItem(QGraphicsItem *gi);
 
 protected:
   QImage image;
   qreal atk;
   qreal speed;
-
-public:
-  static Bullet *castItem(QGraphicsItem *gi);
 };
 
 #endif // INCLUDE_BULLET_BULLET_H_

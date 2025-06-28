@@ -2,10 +2,8 @@
 #ifndef INCLUDE_ENEMY_ENEMY_H_
 #define INCLUDE_ENEMY_ENEMY_H_
 
-#include <common.h>
 #include <game.h>
 #include <gameitem.h>
-// #include <tower/tower.h>
 
 class Enemy : public GameItem {
   Q_INTERFACES(QGraphicsItem)
@@ -17,11 +15,12 @@ public:
         GameValue<qreal> speed = GameValue<qreal>(), int moveType = WALKING,
         qreal atkRadius = 0);
   ~Enemy();
+
+  enum { Type = GameItemType::ENEMY };
+  int type() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;
-  enum { Type = GameItemType::ENEMY };
-  int type() const override;
 
   /* enemy actions*/
   void aquireTarget() override;
@@ -53,7 +52,6 @@ protected:
   QMovie atkMovie;
   QRectF atkMovieRect;
 
-  //    int deathCounter;
   GameValue<int> deathCounter;
 };
 

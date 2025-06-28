@@ -8,6 +8,7 @@ class Laser : public Bullet {
 public:
   Laser(QPointer<GameItem> parent, qreal atk);
   ~Laser();
+
   QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;

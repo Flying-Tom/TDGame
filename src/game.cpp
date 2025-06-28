@@ -1,6 +1,5 @@
 // Copyright 2022 Flying-Tom
 
-#include "shop.h"
 #include <enemy/blackwarrior.h>
 #include <enemy/cowardplane.h>
 #include <enemy/dragon.h>

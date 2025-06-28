@@ -2,7 +2,6 @@
 #ifndef INCLUDE_TOWER_INFOPANEL_H_
 #define INCLUDE_TOWER_INFOPANEL_H_
 
-#include <common.h>
 #include <gameitem.h>
 
 class InfoPanel : public QGraphicsItem {
@@ -10,6 +9,7 @@ class InfoPanel : public QGraphicsItem {
 public:
   explicit InfoPanel(GameItem *parent = 0);
   ~InfoPanel();
+
   QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;

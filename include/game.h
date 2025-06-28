@@ -2,9 +2,9 @@
 #ifndef INCLUDE_GAME_H_
 #define INCLUDE_GAME_H_
 
-#include "shop.h"
 #include <common.h>
 #include <gamemap.h>
+#include <shop.h>
 #include <statistic.h>
 
 class Game : public QGraphicsView {
