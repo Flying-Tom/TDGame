@@ -24,8 +24,8 @@ GameItem::~GameItem() {
 
 QRectF GameItem::boundingRect() const { return QRectF(-40, -40, 80, 80); }
 
-void GameItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                     QWidget* widget) {
+void GameItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
   Q_UNUSED(painter)
   Q_UNUSED(option)
   Q_UNUSED(widget)
@@ -47,16 +47,22 @@ void GameItem::setAtkTarget(QPointer<GameItem> newAtkTarget) {
   atkTarget = newAtkTarget;
 }
 
-const QString& GameItem::getName() const { return name; }
+const QString &GameItem::getName() const { return name; }
 
-void GameItem::setName(const QString& newName) { name = newName; }
+void GameItem::setName(const QString &newName) { name = newName; }
 
-void GameItem::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void GameItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event);
+  if (event->button() != Qt::LeftButton) {
+    return;
+  }
   atkArea->show();
 }
 
-void GameItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+void GameItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event);
+  if (event->button() != Qt::LeftButton) {
+    return;
+  }
   atkArea->hide();
 }

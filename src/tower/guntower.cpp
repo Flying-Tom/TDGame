@@ -1,20 +1,21 @@
 // Copyright 2022 Flying-Tom
 
+#include "tower/tower.h"
 #include <bullet/missile.h>
 #include <tower/guntower.h>
 
-GunTower::GunTower(GameMap* map)
-    : Tower(map, "guntower", GameValue<qreal>(20, 20), RANGE, 250) {
+GunTower::GunTower(GameMap *map)
+    : Tower(map, "guntower", GameValue<qreal>(20, 20), RANGE, 400) {
   image = QImage(":images/guntower.png");
   atkTarget = nullptr;
 }
 
 GunTower::~GunTower() {}
 
-QRectF GunTower::boundingRect() const { return QRectF(-32, -64, 64, 128); }
+QRectF GunTower::boundingRect() const { return rectangularModel; }
 
 void GunTower::attack() {
-  GunBullet* bullet = new GunBullet(5);
+  GunBullet *bullet = new GunBullet(5);
 
   QPointF atkTargetPos;
   if (atkTarget.isNull()) {

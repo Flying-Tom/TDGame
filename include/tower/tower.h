@@ -10,32 +10,32 @@
 class Tower : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
- public:
+public:
   enum towerAtkType {
     MELEE = 0,
     RANGE = 1,
   };
-  Tower(GameMap* map, QString name = QString(),
+  Tower(GameMap *map, QString name = QString(),
         GameValue<qreal> HP = GameValue<qreal>(), int atkType = RANGE,
         qreal atkRadius = 0, GameValue<int> blockNumber = GameValue<int>(0, 3),
         GameValue<int> aquireCounter = GameValue<int>(0, 5));
   ~Tower();
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void advance(int phase) override;
 
- public:
+public:
   enum { Type = UserType + 3 };
   int type() const override;
 
-  void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
- protected:
-  GameMap* map;
+protected:
+  GameMap *map;
   int atkType;
   QImage image;
 
- public:
+public:
   InfoPanel infopanel;
   void aquireTarget() override;
   void attack() override;
@@ -43,4 +43,6 @@ class Tower : public GameItem {
   QImage getImage() const;
 };
 
-#endif  // INCLUDE_TOWER_TOWER_H_
+const QRectF rectangularModel(-32, -64, 64, 128);
+
+#endif // INCLUDE_TOWER_TOWER_H_

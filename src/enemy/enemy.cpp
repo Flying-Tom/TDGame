@@ -14,7 +14,7 @@ Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
   GameItem::money = money;
   GameItem::atk = atk;
   GameItem::speed = speed;
-  deathCounter = GameValue<int>(0, 30);
+  deathCounter = GameValue<int>(0, 100);
 
   atkArea->setRect(-atkRadius, -atkRadius, atkRadius * 2, atkRadius * 2);
 
@@ -151,11 +151,11 @@ void Enemy::advance(int phase) {
     if (HP.getCurValue() == 0) {
       isDead = true;
       speed.setCurValue(0);
+      game->statistic.money.changeCurValue(money);
 
       if (deathCounter.getCurValue() < deathCounter.getMaxValue()) {
         deathCounter.changeCurValue(1);
       } else {
-        game->statistic.money.changeCurValue(money);
         delete this;
         return;
       }

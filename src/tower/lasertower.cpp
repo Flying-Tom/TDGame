@@ -1,5 +1,6 @@
 // Copyright 2022 Flying-Tom
 
+#include "tower/tower.h"
 #include <tower/lasertower.h>
 
 LaserTower::LaserTower(GameMap *map)
@@ -10,10 +11,11 @@ LaserTower::LaserTower(GameMap *map)
 }
 
 LaserTower::~LaserTower() {
-  if (trajectory) delete trajectory;
+  if (trajectory)
+    delete trajectory;
 }
 
-QRectF LaserTower::boundingRect() const { return QRectF(-32, -64, 64, 128); }
+QRectF LaserTower::boundingRect() const { return rectangularModel; }
 
 void LaserTower::attack() {
   if (trajectory == nullptr) {

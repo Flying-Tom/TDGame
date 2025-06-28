@@ -2,7 +2,7 @@
 
 #include <tower/tower.h>
 
-Tower::Tower(GameMap* map, QString name, GameValue<qreal> HP, int atkType,
+Tower::Tower(GameMap *map, QString name, GameValue<qreal> HP, int atkType,
              qreal atkRadius, GameValue<int> blockNumber,
              GameValue<int> aquireCounter)
     : map(map), atkType(atkType), infopanel(this) {
@@ -22,8 +22,8 @@ Tower::~Tower() {
   }
 }
 
-void Tower::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                  QWidget* widget) {
+void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                  QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
   GameItem::paint(painter, option, widget);
@@ -64,14 +64,15 @@ void Tower::advance(int phase) {
   }
 }
 
-void Tower::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
+void Tower::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event);
   infopanel.setPos(pos());
   infopanel.show();
 }
 
 int Tower::type() const {
-  if (map == nullptr) return Type + 114;
+  if (map == nullptr)
+    return Type + 114;
   return Type;
 }
 
@@ -80,11 +81,11 @@ QImage Tower::getImage() const { return image; }
 int Tower::getAtkType() const { return atkType; }
 
 void Tower::aquireTarget() {
-  QList<QGraphicsItem*> colliding_items = atkArea->collidingItems();
-  for (QGraphicsItem* item : colliding_items) {
+  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
+  for (QGraphicsItem *item : colliding_items) {
     if (item->type() == Enemy::Type &&
-        qgraphicsitem_cast<Enemy*>(item)->getIsDead() == false) {
-      atkTarget = qgraphicsitem_cast<Enemy*>(item);
+        qgraphicsitem_cast<Enemy *>(item)->getIsDead() == false) {
+      atkTarget = qgraphicsitem_cast<Enemy *>(item);
     }
   }
 }
