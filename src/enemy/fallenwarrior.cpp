@@ -2,10 +2,12 @@
 
 #include <enemy/fallenwarrior.h>
 
-FallenWarrior::FallenWarrior(Game* game, QList<QPointF>* path)
+#include <tower/tower.h>
+
+FallenWarrior::FallenWarrior(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 30, GameValue<qreal>(200, 200),
-            GameValue<qreal>(500, 500), GameValue<qreal>(2, 2), Enemy::WALKING,
-            60) {
+            GameValue<qreal>(500, 500), GameValue<qreal>(2, 2),
+            enemyMoveType::WALKING, 60) {
   movie.setFileName(":/images/fallenwarrior.gif");
   movie.setCacheMode(QMovie::CacheAll);
   movie.start();
@@ -24,9 +26,9 @@ QPainterPath FallenWarrior::shape() const {
   return path;
 }
 
-void FallenWarrior::paint(QPainter* painter,
-                          const QStyleOptionGraphicsItem* option,
-                          QWidget* widget) {
+void FallenWarrior::paint(QPainter *painter,
+                          const QStyleOptionGraphicsItem *option,
+                          QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -96,7 +98,8 @@ void FallenWarrior::advance(int phase) {
       return;
     }
 
-    if (atkTarget.isNull()) aquireTarget();
+    if (atkTarget.isNull())
+      aquireTarget();
     if (atkTarget.isNull() == false) {
       attack();
     } else {

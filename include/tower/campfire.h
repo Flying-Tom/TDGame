@@ -5,11 +5,11 @@
 #include <tower/tower.h>
 
 class CampFire : public Tower {
- public:
-  explicit CampFire(GameMap* map);
+public:
+  explicit CampFire(GameMap *map);
   ~CampFire();
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   int angle;
   void aquireTarget() override;
   void advance(int phase) override;
@@ -17,4 +17,4 @@ class CampFire : public Tower {
   QMovie movie;
 };
 
-#endif  // INCLUDE_TOWER_CAMPFIRE_H_
+#endif // INCLUDE_TOWER_CAMPFIRE_H_

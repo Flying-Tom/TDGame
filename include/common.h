@@ -45,13 +45,12 @@ class MainWindow;
 #include <QtWidgets>
 #include <iostream>
 
-template <typename Val>
-class GameValue {
- private:
+template <typename Val> class GameValue {
+private:
   Val curValue;
   Val maxValue;
 
- public:
+public:
   GameValue() {
     curValue = Val();
     maxValue = Val();
@@ -61,25 +60,27 @@ class GameValue {
     maxValue = max;
   }
   ~GameValue() {}
-  inline const Val& getCurValue() const { return curValue; }
-  inline void setCurValue(const Val& newCurValue) {
+  inline const Val &getCurValue() const { return curValue; }
+  inline void setCurValue(const Val &newCurValue) {
     curValue = newCurValue;
-    if (curValue < Val()) curValue = Val();
-    if (curValue > maxValue) curValue = maxValue;
+    if (curValue < Val())
+      curValue = Val();
+    if (curValue > maxValue)
+      curValue = maxValue;
   }
   inline void changeCurValue(Val delta) { setCurValue(curValue + delta); }
-  inline const Val& getMaxValue() const { return maxValue; }
-  inline void setMaxValue(const Val& newMaxValue) { maxValue = newMaxValue; }
+  inline const Val &getMaxValue() const { return maxValue; }
+  inline void setMaxValue(const Val &newMaxValue) { maxValue = newMaxValue; }
 };
 
 class InfoMsg : public QWidget {
- public:
-  explicit InfoMsg(QWidget* parent) : QWidget(parent) {}
-  void paintEvent(QPaintEvent* e) override {
+public:
+  explicit InfoMsg(QWidget *parent) : QWidget(parent) {}
+  void paintEvent(QPaintEvent *e) override {
     Q_UNUSED(e)
     QPainter p(this);
     p.drawImage(QRectF(-10, -10, 358, 242), QImage(":/images/messagebox.png"));
   };
 };
 
-#endif  // INCLUDE_COMMON_H_
+#endif // INCLUDE_COMMON_H_

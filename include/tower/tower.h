@@ -3,7 +3,7 @@
 #define INCLUDE_TOWER_TOWER_H_
 
 #include <common.h>
-#include <enemy/enemy.h>
+// #include <enemy/enemy.h>
 #include <gameitem.h>
 #include <tower/infopanel.h>
 
@@ -11,10 +11,6 @@ class Tower : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
 public:
-  enum towerAtkType {
-    MELEE = 0,
-    RANGE = 1,
-  };
   Tower(GameMap *map, QString name = QString(),
         GameValue<qreal> HP = GameValue<qreal>(), int atkType = RANGE,
         qreal atkRadius = 0, GameValue<int> blockNumber = GameValue<int>(0, 3),
@@ -25,7 +21,7 @@ public:
   void advance(int phase) override;
 
 public:
-  enum { Type = UserType + 3 };
+  enum { Type = GameItemType::TOWER };
   int type() const override;
 
   void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;

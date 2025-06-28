@@ -2,10 +2,10 @@
 
 #include <bullet/missile.h>
 
+#include <enemy/enemy.h>
+
 Missile::Missile(QPointer<GameItem> atkTarget, qreal atk)
-    : atkTarget(atkTarget),
-      bombArea(nullptr),
-      isBombing(false),
+    : atkTarget(atkTarget), bombArea(nullptr), isBombing(false),
       movie(":images/bomb.gif") {
   Bullet::atk = atk;
   image = QImage(":images/missile.png");
@@ -14,7 +14,8 @@ Missile::Missile(QPointer<GameItem> atkTarget, qreal atk)
 }
 
 Missile::~Missile() {
-  if (bombArea) delete bombArea;
+  if (bombArea)
+    delete bombArea;
 }
 
 QRectF Missile::boundingRect() const { return QRectF(-40, -20, 80, 40); }
@@ -25,8 +26,8 @@ QPainterPath Missile::shape() const {
   return path;
 }
 
-void Missile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                    QWidget* widget) {
+void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                    QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -55,11 +56,11 @@ void Missile::advance(int phase) {
       }
     } else {
       moveForward();
-      QList<QGraphicsItem*> items = collidingItems();
+      QList<QGraphicsItem *> items = collidingItems();
       if (!items.empty()) {
-        for (QGraphicsItem* item : items) {
+        for (QGraphicsItem *item : items) {
           if (item->type() == Enemy::Type &&
-              qgraphicsitem_cast<Enemy*>(item)->getIsDead() == false) {
+              qgraphicsitem_cast<Enemy *>(item)->getIsDead() == false) {
             isBombing = true;
             bombArea = new QGraphicsEllipseItem(this);
             bombArea->setPen(Qt::NoPen);
@@ -88,10 +89,10 @@ void Missile::moveForward() {
 }
 
 void Missile::bombing() {
-  QList<QGraphicsItem*> items = bombArea->collidingItems();
-  for (QGraphicsItem* item : items) {
+  QList<QGraphicsItem *> items = bombArea->collidingItems();
+  for (QGraphicsItem *item : items) {
     if (item->type() == Enemy::Type) {
-      Enemy* e = qgraphicsitem_cast<Enemy*>(item);
+      Enemy *e = qgraphicsitem_cast<Enemy *>(item);
       e->HP.changeCurValue(-atk);
       e->underAtk = true;
     }

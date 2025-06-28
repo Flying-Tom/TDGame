@@ -2,14 +2,14 @@
 
 #include <tower/infopanel.h>
 
-InfoPanel::InfoPanel(GameItem* parent) : parent(parent) { return; }
+InfoPanel::InfoPanel(GameItem *parent) : parent(parent) { return; }
 
 InfoPanel::~InfoPanel() {}
 
 QRectF InfoPanel::boundingRect() const { return QRectF(0, 0, 150, 150); }
 
-void InfoPanel::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                      QWidget* widget) {
+void InfoPanel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                      QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -35,7 +35,7 @@ void InfoPanel::advance(int phase) {
   }
 }
 
-void InfoPanel::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void InfoPanel::mousePressEvent(QGraphicsSceneMouseEvent *event) {
   if (event->button() == Qt::RightButton) {
     hide();
     return;

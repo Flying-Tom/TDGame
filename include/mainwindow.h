@@ -7,25 +7,25 @@
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
- public:
-  explicit MainWindow(QWidget* parent = nullptr);
-  void keyPressEvent(QKeyEvent* event) override;
-  void paintEvent(QPaintEvent* e) override;
+public:
+  explicit MainWindow(QWidget *parent = nullptr);
+  void keyPressEvent(QKeyEvent *event) override;
+  void paintEvent(QPaintEvent *e) override;
 
-  Game* getGame() const;
-  void setGame(Game* newGame);
+  Game *getGame() const;
+  void setGame(Game *newGame);
   QString mapConfig;
 
   //    void loadStyleSheet(const QString &styleSheetFile);
 
- public slots:
+public slots:
   void startGame();
   void chooseMap();
   void exportMap();
 
- private:
-  Game* game;
+private:
+  Game *game;
   int starticonangle;
 };
 
-#endif  // INCLUDE_MAINWINDOW_H_
+#endif // INCLUDE_MAINWINDOW_H_

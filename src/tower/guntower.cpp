@@ -1,8 +1,9 @@
 // Copyright 2022 Flying-Tom
 
-#include "tower/tower.h"
-#include <bullet/missile.h>
 #include <tower/guntower.h>
+
+#include <bullet/missile.h>
+#include <enemy/enemy.h>
 
 GunTower::GunTower(GameMap *map)
     : Tower(map, "guntower", GameValue<qreal>(20, 20), RANGE, 400) {

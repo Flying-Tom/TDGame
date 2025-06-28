@@ -6,10 +6,10 @@
 #include <game.h>
 
 class CowardPlane : public Enemy {
- public:
-  CowardPlane(Game* game, QList<QPointF>* path);
+public:
+  CowardPlane(Game *game, QList<QPointF> *path);
   QPainterPath shape() const override;
   void advance(int phase) override;
 };
 
-#endif  //  INCLUDE_ENEMY_COWARDPLANE_H_
+#endif //  INCLUDE_ENEMY_COWARDPLANE_H_

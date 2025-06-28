@@ -28,8 +28,8 @@ QRectF Shop::boundingRect() const {
   return QRectF(aleft, atop, awidth, aheight);
 }
 
-void Shop::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                 QWidget* widget) {
+void Shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                 QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -45,7 +45,7 @@ void Shop::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
   painter->setBrush(brush);
 
   if (Shop::cost[Shop::map[towername]] >
-      qgraphicsitem_cast<Statistic*>(parentItem())->money.getCurValue()) {
+      qgraphicsitem_cast<Statistic *>(parentItem())->money.getCurValue()) {
     painter->drawRect(QRectF(0, 0, awidth, aheight));
   } else if (counter < cdtime[map[towername]]) {
     painter->drawRect(QRectF(
@@ -55,17 +55,18 @@ void Shop::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 
 void Shop::advance(int phase) {
   if (!phase) {
-    if (counter < cdtime[map[towername]]) ++counter;
+    if (counter < cdtime[map[towername]])
+      ++counter;
   } else {
     update();
   }
 }
 
-void Shop::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void Shop::mousePressEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event)
 
   if (cost[map[towername]] >
-      qgraphicsitem_cast<Statistic*>(parentItem())->money.getCurValue()) {
+      qgraphicsitem_cast<Statistic *>(parentItem())->money.getCurValue()) {
     event->setAccepted(false);
     return;
   }
@@ -76,13 +77,13 @@ void Shop::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     counter = 0;
 }
 
-void Shop::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+void Shop::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
   if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton))
           .length() < QApplication::startDragDistance())
     return;
 
-  QDrag* drag = new QDrag(event->widget());
-  QMimeData* mime = new QMimeData();
+  QDrag *drag = new QDrag(event->widget());
+  QMimeData *mime = new QMimeData();
   mime->setText(towername);
   drag->setMimeData(mime);
   drag->setPixmap(
@@ -91,6 +92,6 @@ void Shop::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
   drag->exec();
 }
 
-void Shop::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+void Shop::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event)
 }

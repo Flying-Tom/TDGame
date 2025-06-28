@@ -2,10 +2,12 @@
 
 #include <enemy/blackwarrior.h>
 
-BlackWarrior::BlackWarrior(Game* game, QList<QPointF>* path)
+#include <tower/tower.h>
+
+BlackWarrior::BlackWarrior(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 30, GameValue<qreal>(100, 100),
-            GameValue<qreal>(10, 10), GameValue<qreal>(2, 2), Enemy::WALKING,
-            60) {
+            GameValue<qreal>(10, 10), GameValue<qreal>(2, 2),
+            enemyMoveType::WALKING, 60) {
   movie.setFileName(":/images/blackwarrior.gif");
   movie.start();
 

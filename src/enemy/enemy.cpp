@@ -2,6 +2,8 @@
 
 #include <enemy/enemy.h>
 
+#include <tower/tower.h>
+
 Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
              GameValue<qreal> atk, GameValue<qreal> speed, int moveType,
              qreal atkRadius)
@@ -25,7 +27,7 @@ Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
 
 Enemy::~Enemy() {
   game->statistic.enemyNum.changeCurValue(-1);
-  if (atkTarget.isNull() == false && atkTarget->type() == Tower::Type) {
+  if (atkTarget.isNull() == false && atkTarget->type() == GameItemType::TOWER) {
     atkTarget->blockNumber.changeCurValue(-1);
   }
 }
@@ -96,10 +98,10 @@ void Enemy::moveForward() {
 void Enemy::aquireTarget() {
   QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
   for (QGraphicsItem *item : colliding_items) {
-    if (item->type() == Tower::Type) {
+    if (item->type() == GameItemType::TOWER) {
       Tower *t = qgraphicsitem_cast<Tower *>(item);
-      if ((t->getAtkType() == Tower::RANGE && canAttackRange == false) ||
-          (t->getAtkType() == Tower::MELEE && canAttackMelee == false) ||
+      if ((t->getAtkType() == towerAtkType::RANGE && canAttackRange == false) ||
+          (t->getAtkType() == towerAtkType::MELEE && canAttackMelee == false) ||
           (t->blockNumber.getCurValue() >= t->blockNumber.getMaxValue())) {
         continue;
       } else {

@@ -2,7 +2,9 @@
 
 #include <tower/sawtooth.h>
 
-SawTooth::SawTooth(GameMap* map)
+#include <enemy/enemy.h>
+
+SawTooth::SawTooth(GameMap *map)
     : Tower(map, "sawtooth", GameValue<qreal>(500, 500), MELEE, 0,
             GameValue<int>(0, 0)) {
   image = QImage(":images/sawtooth.png");
@@ -11,8 +13,8 @@ SawTooth::SawTooth(GameMap* map)
 
 SawTooth::~SawTooth() {}
 
-void SawTooth::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                     QWidget* widget) {
+void SawTooth::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
   painter->drawImage(boundingRect(), image);
@@ -25,12 +27,12 @@ void SawTooth::advance(int phase) {
     }
     setRotation(angle);
     angle += 20;
-    QList<QGraphicsItem*> items = collidingItems();
+    QList<QGraphicsItem *> items = collidingItems();
     if (!items.empty()) {
-      for (QGraphicsItem* item : items) {
+      for (QGraphicsItem *item : items) {
         if (item->type() == Enemy::Type) {
-          Enemy* e = qgraphicsitem_cast<Enemy*>(item);
-          if (e->getMoveType() == Enemy::WALKING) {
+          Enemy *e = qgraphicsitem_cast<Enemy *>(item);
+          if (e->getMoveType() == enemyMoveType::WALKING) {
             e->HP.changeCurValue(-0.5);
             e->underAtk = true;
           }

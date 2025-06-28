@@ -2,10 +2,12 @@
 
 #include <enemy/dragon.h>
 
-Dragon::Dragon(Game* game, QList<QPointF>* path)
+#include <tower/tower.h>
+
+Dragon::Dragon(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 300, GameValue<qreal>(700, 700),
-            GameValue<qreal>(15, 15), GameValue<qreal>(0.3, 0.3), Enemy::FLYING,
-            100) {
+            GameValue<qreal>(15, 15), GameValue<qreal>(0.3, 0.3),
+            enemyMoveType::FLYING, 100) {
   movie.setFileName(":/images/dragon.gif");
   movie.start();
 

@@ -2,7 +2,9 @@
 
 #include <tower/bomb.h>
 
-Bomb::Bomb(GameMap* map)
+#include <enemy/enemy.h>
+
+Bomb::Bomb(GameMap *map)
     : Tower(map, "bomb", GameValue<qreal>(8, 8), MELEE, 256,
             GameValue<int>(0, 20)),
       movie(":images/bomb.gif") {
@@ -11,8 +13,8 @@ Bomb::Bomb(GameMap* map)
 
 Bomb::~Bomb() {}
 
-void Bomb::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                 QWidget* widget) {
+void Bomb::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                 QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -42,14 +44,15 @@ void Bomb::advance(int phase) {
 }
 
 void Bomb::bombing() {
-  QList<QGraphicsItem*> colliding_items = atkArea->collidingItems();
+  QList<QGraphicsItem *> colliding_items = atkArea->collidingItems();
   if (!colliding_items.empty()) {
-    for (QGraphicsItem* item : colliding_items) {
+    for (QGraphicsItem *item : colliding_items) {
       if (item->type() == Enemy::Type) {
-        Enemy* e = qgraphicsitem_cast<Enemy*>(item);
-        if (e->getMoveType() == Enemy::WALKING) e->HP.setCurValue(0);
+        Enemy *e = qgraphicsitem_cast<Enemy *>(item);
+        if (e->getMoveType() == enemyMoveType::WALKING)
+          e->HP.setCurValue(0);
       } else if (item->type() == Tower::Type) {
-        GameItem* gi = qgraphicsitem_cast<GameItem*>(item);
+        GameItem *gi = qgraphicsitem_cast<GameItem *>(item);
         if (gi->getName() == QString("bomb") ||
             gi->getName() == QString("repeller")) {
           gi->HP.setCurValue(0);

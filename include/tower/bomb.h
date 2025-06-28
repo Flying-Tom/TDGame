@@ -5,16 +5,16 @@
 #include <tower/tower.h>
 
 class Bomb : public Tower {
- public:
-  explicit Bomb(GameMap* map);
+public:
+  explicit Bomb(GameMap *map);
   ~Bomb();
   void advance(int phase) override;
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void bombing();
 
- protected:
+protected:
   QMovie movie;
 };
 
-#endif  // INCLUDE_TOWER_BOMB_H_
+#endif // INCLUDE_TOWER_BOMB_H_

@@ -3,20 +3,19 @@
 #define INCLUDE_BULLET_LASER_H_
 
 #include <bullet/bullet.h>
-#include <enemy/enemy.h>
 
 class Laser : public Bullet {
- public:
+public:
   Laser(QPointer<GameItem> parent, qreal atk);
   ~Laser();
   QRectF boundingRect() const override;
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void advance(int phase) override;
 
- protected:
+protected:
   QPointer<GameItem> parent;
   int counter;
 };
 
-#endif  // INCLUDE_BULLET_LASER_H_
+#endif // INCLUDE_BULLET_LASER_H_

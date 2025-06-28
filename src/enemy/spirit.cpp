@@ -2,10 +2,10 @@
 
 #include <enemy/spirit.h>
 
-Spirit::Spirit(Game* game, QList<QPointF>* path)
+Spirit::Spirit(Game *game, QList<QPointF> *path)
     : Enemy(game, path, 50, GameValue<qreal>(500, 500),
-            GameValue<qreal>(100, 100), GameValue<qreal>(1, 1), Enemy::WALKING,
-            100) {
+            GameValue<qreal>(100, 100), GameValue<qreal>(1, 1),
+            enemyMoveType::WALKING, 100) {
   movie.setFileName(":/images/spirit.gif");
   movie.start();
 

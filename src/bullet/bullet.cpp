@@ -1,14 +1,15 @@
 // Copyright 2022 Flying-Tom
 
 #include <bullet/bullet.h>
+
 #include <game.h>
 
 Bullet::Bullet() : QObject(), QGraphicsItem() {}
 
 QRectF Bullet::boundingRect() const { return QRectF(-8, -8, 16, 16); }
 
-void Bullet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                   QWidget* widget) {
+void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                   QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
   Q_UNUSED(painter)

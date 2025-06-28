@@ -1,7 +1,8 @@
 // Copyright 2022 Flying-Tom
 
-#include "tower/tower.h"
 #include <tower/lasertower.h>
+
+#include <enemy/enemy.h>
 
 LaserTower::LaserTower(GameMap *map)
     : Tower(map, "lasertower", GameValue<qreal>(20, 20), RANGE, 256) {
@@ -56,8 +57,8 @@ void LaserTower::aquireTarget() {
 
   for (QGraphicsItem *item : colliding_items) {
     Enemy *e = qgraphicsitem_cast<Enemy *>(item);
-    if (item->type() == Enemy::Type && e->getMoveType() == Enemy::WALKING &&
-        e->getIsDead() == false) {
+    if (item->type() == Enemy::Type &&
+        e->getMoveType() == enemyMoveType::WALKING && e->getIsDead() == false) {
       atkTarget = e;
       attack();
       return;

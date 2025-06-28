@@ -5,12 +5,12 @@
 #include <tower/tower.h>
 
 class Shield : public Tower {
- public:
-  explicit Shield(GameMap* map);
+public:
+  explicit Shield(GameMap *map);
   ~Shield();
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void advance(int phase) override;
 };
 
-#endif  // INCLUDE_TOWER_SHIELD_H_
+#endif // INCLUDE_TOWER_SHIELD_H_

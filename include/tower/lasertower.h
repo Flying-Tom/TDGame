@@ -7,22 +7,22 @@
 #include <tower/tower.h>
 
 class LaserTower : public Tower {
- public:
-  explicit LaserTower(GameMap* map);
+public:
+  explicit LaserTower(GameMap *map);
   ~LaserTower();
   QRectF boundingRect() const override;
 
   void attack() override;
 
-  Laser* getTrajectory() const;
-  void setTrajectory(Laser* newTrajectory);
+  Laser *getTrajectory() const;
+  void setTrajectory(Laser *newTrajectory);
 
- protected:
+protected:
   int prevAngle;
-  Laser* trajectory;
+  Laser *trajectory;
 
- public:
+public:
   void aquireTarget() override;
 };
 
-#endif  // INCLUDE_TOWER_LASERTOWER_H_
+#endif // INCLUDE_TOWER_LASERTOWER_H_

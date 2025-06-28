@@ -6,9 +6,9 @@
 #include <game.h>
 
 class BlackWarrior : public Enemy {
- public:
-  BlackWarrior(Game* game, QList<QPointF>* path);
+public:
+  BlackWarrior(Game *game, QList<QPointF> *path);
   QPainterPath shape() const override;
 };
 
-#endif  // INCLUDE_ENEMY_BLACKWARRIOR_H_
+#endif // INCLUDE_ENEMY_BLACKWARRIOR_H_

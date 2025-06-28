@@ -5,10 +5,10 @@
 #include <tower/tower.h>
 
 class Repeller : public Tower {
- public:
-  explicit Repeller(GameMap* map);
+public:
+  explicit Repeller(GameMap *map);
   ~Repeller();
   void advance(int phase) override;
 };
 
-#endif  // INCLUDE_TOWER_REPELLER_H_
+#endif // INCLUDE_TOWER_REPELLER_H_

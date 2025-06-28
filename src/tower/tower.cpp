@@ -2,6 +2,8 @@
 
 #include <tower/tower.h>
 
+#include <enemy/enemy.h>
+
 Tower::Tower(GameMap *map, QString name, GameValue<qreal> HP, int atkType,
              qreal atkRadius, GameValue<int> blockNumber,
              GameValue<int> aquireCounter)

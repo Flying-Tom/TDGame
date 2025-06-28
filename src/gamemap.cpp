@@ -2,6 +2,7 @@
 
 #include <enemy/enemy.h>
 #include <game.h>
+#include <gameitem.h>
 #include <gamemap.h>
 #include <shop.h>
 #include <statistic.h>
@@ -291,8 +292,9 @@ void GameMap::addTower(QString s, QPointF pos) {
       break;
     }
 
-    if ((tower->getAtkType() == Tower::MELEE && IsRoad(block) == false) ||
-        (tower->getAtkType() == Tower::RANGE && IsRoad(block) == true)) {
+    if ((tower->getAtkType() == towerAtkType::MELEE &&
+         IsRoad(block) == false) ||
+        (tower->getAtkType() == towerAtkType::RANGE && IsRoad(block) == true)) {
       delete tower;
       return;
     }
@@ -354,8 +356,10 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
       }
     }
 
-    if ((towerShadow->getAtkType() == Tower::MELEE && IsRoad(block) == true) ||
-        (towerShadow->getAtkType() == Tower::RANGE && IsRoad(block) == false)) {
+    if ((towerShadow->getAtkType() == towerAtkType::MELEE &&
+         IsRoad(block) == true) ||
+        (towerShadow->getAtkType() == towerAtkType::RANGE &&
+         IsRoad(block) == false)) {
       QRectF r = towerShadow->boundingRect();
       towerShadowRect =
           QRectF(pos.x() + r.x(), pos.y() + r.y(), r.width(), r.height());

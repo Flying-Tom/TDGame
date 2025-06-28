@@ -5,16 +5,12 @@
 #include <common.h>
 #include <game.h>
 #include <gameitem.h>
-#include <tower/tower.h>
+// #include <tower/tower.h>
 
 class Enemy : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
 public:
-  enum enemyMoveType {
-    WALKING = 0,
-    FLYING = 1,
-  };
   Enemy(Game *game, QList<QPointF> *path, int money = 0,
         GameValue<qreal> HP = GameValue<qreal>(),
         GameValue<qreal> atk = GameValue<qreal>(),
@@ -24,7 +20,7 @@ public:
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;
-  enum { Type = UserType + 2 };
+  enum { Type = GameItemType::ENEMY };
   int type() const override;
 
   /* enemy actions*/

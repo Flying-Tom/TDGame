@@ -3,7 +3,9 @@
 #include <tower/bomb.h>
 #include <tower/campfire.h>
 
-CampFire::CampFire(GameMap* map)
+#include <enemy/enemy.h>
+
+CampFire::CampFire(GameMap *map)
     : Tower(map, "campfire", GameValue<qreal>(10, 10), RANGE, 250,
             GameValue<int>(0, 3), GameValue<int>(0, 500)),
       movie(":images/campfire.gif") {
@@ -13,8 +15,8 @@ CampFire::CampFire(GameMap* map)
 
 CampFire::~CampFire() {}
 
-void CampFire::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                     QWidget* widget) {
+void CampFire::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
   GameItem::paint(painter, option, widget);
@@ -29,7 +31,7 @@ void CampFire::aquireTarget() {
       QPoint block(
           GameMap::CoordinateToBlock(QPointF(x() + ax[i], y() + ay[j])));
       if (map->IsOccupied(block) == false && map->IsRoad(block) == true) {
-        Tower* tower = new Bomb(map);
+        Tower *tower = new Bomb(map);
         tower->setParentItem(map);
         tower->setPos(QPointF(x() + ax[i], y() + ay[j]));
         tower->infopanel.setParentItem(map);

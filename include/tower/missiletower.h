@@ -5,14 +5,13 @@
 #include <bullet/missile.h>
 #include <tower/tower.h>
 
-
 class MissileTower : public Tower {
- public:
-  explicit MissileTower(GameMap* map);
+public:
+  explicit MissileTower(GameMap *map);
   ~MissileTower();
 
   void aquireTarget() override;
   void attack() override;
 };
 
-#endif  // INCLUDE_TOWER_MISSILETOWER_H_
+#endif // INCLUDE_TOWER_MISSILETOWER_H_

@@ -3,16 +3,17 @@
 #define INCLUDE_GAMEITEM_H_
 
 #include <common.h>
+#include <qgraphicsitem.h>
 
 class GameItem : public QGraphicsObject {
- public:
+public:
   GameItem();
   virtual ~GameItem();
 
- public:
+public:
   QRectF boundingRect() const override;
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   virtual void aquireTarget() = 0;
   virtual void attack() = 0;
 
@@ -22,13 +23,13 @@ class GameItem : public QGraphicsObject {
   QPointer<GameItem> getAtkTarget() const;
   void setAtkTarget(QPointer<GameItem> newAtkTarget);
 
-  const QString& getName() const;
-  void setName(const QString& newName);
+  const QString &getName() const;
+  void setName(const QString &newName);
 
-  void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
- protected:
+protected:
   QString name;
 
   int money;
@@ -37,16 +38,32 @@ class GameItem : public QGraphicsObject {
 
   QPointer<GameItem> atkTarget;
 
- public:
+public:
   GameValue<qreal> HP;
   GameValue<qreal> atk;
   GameValue<qreal> speed;
   GameValue<int> blockNumber;
   GameValue<int> aquireCounter;
-  QGraphicsEllipseItem* atkArea;
-  QGraphicsRectItem* HPMeter;
+  QGraphicsEllipseItem *atkArea;
+  QGraphicsRectItem *HPMeter;
   bool underAtk;
   GameValue<int> blinkCounter;
 };
 
-#endif  // INCLUDE_GAMEITEM_H_
+enum GameItemType {
+  ENEMY = QGraphicsItem::UserType + 2,
+  TOWER = QGraphicsItem::UserType + 3,
+  BULLET = QGraphicsItem::UserType + 4,
+};
+
+enum enemyMoveType {
+  WALKING = 0,
+  FLYING = 1,
+};
+
+enum towerAtkType {
+  MELEE = 0,
+  RANGE = 1,
+};
+
+#endif // INCLUDE_GAMEITEM_H_

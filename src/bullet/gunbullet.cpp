@@ -2,6 +2,8 @@
 
 #include <bullet/gunbullet.h>
 
+#include <enemy/enemy.h>
+
 GunBullet::GunBullet(qreal atk) {
   Bullet::atk = atk;
   image = QImage(":images/gunbullet.png");
@@ -10,8 +12,8 @@ GunBullet::GunBullet(qreal atk) {
 
 QRectF GunBullet::boundingRect() const { return QRectF(-6, -6, 12, 12); }
 
-void GunBullet::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-                      QWidget* widget) {
+void GunBullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                      QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -24,11 +26,11 @@ void GunBullet::advance(int phase) {
       delete this;
       return;
     }
-    QList<QGraphicsItem*> items = collidingItems();
+    QList<QGraphicsItem *> items = collidingItems();
     if (!items.empty()) {
-      for (QGraphicsItem* item : items) {
+      for (QGraphicsItem *item : items) {
         if (item->type() == Enemy::Type) {
-          Enemy* e = qgraphicsitem_cast<Enemy*>(item);
+          Enemy *e = qgraphicsitem_cast<Enemy *>(item);
           e->HP.changeCurValue(-atk);
           e->underAtk = true;
           delete this;

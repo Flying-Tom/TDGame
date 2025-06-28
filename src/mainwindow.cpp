@@ -4,7 +4,7 @@
 
 #include <QPushButton>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   setFixedSize(1440, 960);
   // QRect screenGeometry = QGuiApplication::primaryScreen()->geometry();
   QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   mapConfig = QString(":maps/map1.txt");
   setCursor(QCursor(QPixmap(":images/mouse.png")));
 
-  QWidget* menu = new QWidget(this);
+  QWidget *menu = new QWidget(this);
 
   setCentralWidget(menu);
 
@@ -31,28 +31,28 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   int buttonWidth = 200, buttonHeight = 100;
   int buttonInterval = 120;
 
-  QPushButton* startGameButton = new QPushButton("Start Game");
+  QPushButton *startGameButton = new QPushButton("Start Game");
   connect(startGameButton, &QPushButton::clicked, this, &MainWindow::startGame);
   startGameButton->setParent(menu);
   startGameButton->move(buttonStartX, buttonStartY);
   startGameButton->resize(buttonWidth, buttonHeight);
   startGameButton->setStyleSheet(menuButtonStyle);
 
-  QPushButton* chooseMapButton = new QPushButton("Choose Map");
+  QPushButton *chooseMapButton = new QPushButton("Choose Map");
   connect(chooseMapButton, &QPushButton::clicked, this, &MainWindow::chooseMap);
   chooseMapButton->setParent(menu);
   chooseMapButton->move(buttonStartX, buttonStartY + buttonInterval);
   chooseMapButton->resize(buttonWidth, buttonHeight);
   chooseMapButton->setStyleSheet(menuButtonStyle);
 
-  QPushButton* exportMapButton = new QPushButton("Export Map");
+  QPushButton *exportMapButton = new QPushButton("Export Map");
   connect(exportMapButton, &QPushButton::clicked, this, &MainWindow::exportMap);
   exportMapButton->setParent(menu);
   exportMapButton->move(buttonStartX, buttonStartY + buttonInterval * 2);
   exportMapButton->resize(buttonWidth, buttonHeight);
   exportMapButton->setStyleSheet(menuButtonStyle);
 
-  QPushButton* ExitButton = new QPushButton("Exit Game");
+  QPushButton *ExitButton = new QPushButton("Exit Game");
   connect(ExitButton, &QPushButton::clicked, this, &MainWindow::close);
   ExitButton->setParent(menu);
   ExitButton->move(buttonStartX, buttonStartY + buttonInterval * 3);
@@ -62,24 +62,24 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   menu->show();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
+void MainWindow::keyPressEvent(QKeyEvent *event) {
   switch (event->key()) {
-    case Qt::Key_Escape:
-      if (game) {
-        delete game;
-        game = nullptr;
-      }
-      break;
-    case Qt::Key_S:
-      startGame();
-      break;
-    default:
-      event->ignore();
-      break;
+  case Qt::Key_Escape:
+    if (game) {
+      delete game;
+      game = nullptr;
+    }
+    break;
+  case Qt::Key_S:
+    startGame();
+    break;
+  default:
+    event->ignore();
+    break;
   }
 }
 
-void MainWindow::paintEvent(QPaintEvent* e) {
+void MainWindow::paintEvent(QPaintEvent *e) {
   Q_UNUSED(e)
   QPainter p(this);
   p.setOpacity(1);
@@ -91,9 +91,9 @@ void MainWindow::paintEvent(QPaintEvent* e) {
   p.drawImage(QRectF(560, 200, 391, 180), QImage(":/images/gametitle.png"));
 }
 
-Game* MainWindow::getGame() const { return game; }
+Game *MainWindow::getGame() const { return game; }
 
-void MainWindow::setGame(Game* newGame) { game = newGame; }
+void MainWindow::setGame(Game *newGame) { game = newGame; }
 
 void MainWindow::startGame() {
   game = new Game(this, &mapConfig);

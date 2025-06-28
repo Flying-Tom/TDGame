@@ -6,13 +6,13 @@
 #include <tower/tower.h>
 
 class GunTower : public Tower {
- public:
-  explicit GunTower(GameMap* map);
+public:
+  explicit GunTower(GameMap *map);
   ~GunTower();
   QRectF boundingRect() const override;
 
- public:
+public:
   void attack() override;
 };
 
-#endif  // INCLUDE_TOWER_GUNTOWER_H_
+#endif // INCLUDE_TOWER_GUNTOWER_H_

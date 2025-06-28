@@ -5,7 +5,7 @@
 #include <common.h>
 
 class Shop : public QGraphicsItem {
- public:
+public:
   int counter;
 
   qreal aleft, atop, awidth, aheight;
@@ -17,12 +17,12 @@ class Shop : public QGraphicsItem {
   static const QVector<int> cost;
   static const QVector<int> cdtime;
   QRectF boundingRect() const override;
-  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
-             QWidget* widget) override;
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+             QWidget *widget) override;
   void advance(int phase) override;
-  void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-  void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
-#endif  // INCLUDE_SHOP_H_
+#endif // INCLUDE_SHOP_H_
