@@ -26,7 +26,7 @@ Enemy::Enemy(Game *game, QList<QPointF> *path, int money, GameValue<qreal> HP,
 }
 
 Enemy::~Enemy() {
-  game->statistic.enemyNum.changeCurValue(-1);
+  game->statistic->enemyNum.changeCurValue(-1);
   if (atkTarget.isNull() == false && atkTarget->type() == Tower::Type) {
     atkTarget->blockNumber.changeCurValue(-1);
   }
@@ -83,7 +83,7 @@ void Enemy::moveForward() {
       dest = points[++pointIndex];
       theta = -QLineF(pos(), dest).angle();
     } else {
-      game->statistic.life.changeCurValue(-1);
+      game->statistic->life.changeCurValue(-1);
       delete this;
       return;
     }
@@ -152,7 +152,7 @@ void Enemy::advance(int phase) {
     if (HP.getCurValue() == 0) {
       isDead = true;
       speed.setCurValue(0);
-      game->statistic.money.changeCurValue(money);
+      game->statistic->money.changeCurValue(money);
 
       if (deathCounter.getCurValue() < deathCounter.getMaxValue()) {
         deathCounter.changeCurValue(1);

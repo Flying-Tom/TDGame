@@ -1,35 +1,36 @@
 // Copyright 2022 Flying-Tom
 
 #include <shop.h>
+
 #include <statistic.h>
 
-const QMap<QString, int> Shop::map = {
-    {"guntower", 0},     {"lasertower", 1}, {"repeller", 2}, {"bomb", 3},
-    {"missiletower", 4}, {"sawtooth", 5},   {"campfire", 6}, {"shield", 7},
-};
-const QVector<QString> Shop::name = {
-    "guntower",     "lasertower", "repeller", "bomb",
-    "missiletower", "sawtooth",   "campfire", "shield",
-};
-const QVector<int> Shop::cost = {1000, 8000, 500, 500, 6000, 5000, 2000, 1000};
-const QVector<int> Shop::cdtime = {30, 40, 50, 3, 3, 5, 20, 20};
-
-Shop::Shop(QString s, qreal left, qreal top, qreal width, qreal height) {
-  towername = s;
-  counter = 0;
-
-  aleft = left;
-  atop = top;
-  awidth = width;
-  aheight = height;
+Shop::Shop(Game *game) {
+  qDebug() << "Shop init";
+  shopItems = {
+      {"guntower", 1000, 30}, {"lasertower", 8000, 40},  {"repeller", 500, 50},
+      {"bomb", 500, 3},       {"missiletower", 6000, 3}, {"sawtooth", 5000, 5},
+      {"campfire", 2000, 20}, {"shield", 1000, 20},
+  };
+  for (int i = 0; i < shopItems.size(); ++i) {
+    shopItemsMap[shopItems[i].name] = shopItems[i];
+    orderMap[shopItems[i].name] = i;
+  }
+  qDebug() << "Shop fnish init";
 }
 
-QRectF Shop::boundingRect() const {
+ShopIcon::ShopIcon(Shop *shop, QString s, qreal left, qreal top, qreal width,
+                   qreal height)
+    : shop(shop), towername(s), aleft(left), atop(top), awidth(width),
+      aheight(height) {
+  counter = 0;
+}
+
+QRectF ShopIcon::boundingRect() const {
   return QRectF(aleft, atop, awidth, aheight);
 }
 
-void Shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                 QWidget *widget) {
+void ShopIcon::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                     QWidget *widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 
@@ -38,46 +39,48 @@ void Shop::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   font.setPointSizeF(15);
   painter->setFont(font);
   painter->setPen(Qt::white);
-  painter->drawText(QRectF(awidth + 5, aheight / 2 - 12, awidth, aheight),
-                    QString().asprintf("%3d", cost[map[towername]]));
+  painter->drawText(
+      QRectF(awidth + 5, aheight / 2 - 12, awidth, aheight),
+      QString().asprintf("%3d", shop->shopItemsMap[towername].cost));
 
   QBrush brush(QColor(0, 0, 0, 200));
   painter->setBrush(brush);
 
-  if (Shop::cost[Shop::map[towername]] >
+  if (shop->shopItemsMap[towername].cost >
       qgraphicsitem_cast<Statistic *>(parentItem())->money.getCurValue()) {
     painter->drawRect(QRectF(0, 0, awidth, aheight));
-  } else if (counter < cdtime[map[towername]]) {
+  } else if (counter < shop->shopItemsMap[towername].cdtime) {
     painter->drawRect(QRectF(
-        0, 0, awidth, aheight * (1 - qreal(counter) / cdtime[map[towername]])));
+        0, 0, awidth,
+        aheight * (1 - qreal(counter) / shop->shopItemsMap[towername].cdtime)));
   }
 }
 
-void Shop::advance(int phase) {
+void ShopIcon::advance(int phase) {
   if (!phase) {
-    if (counter < cdtime[map[towername]])
+    if (counter < shop->shopItemsMap[towername].cdtime)
       ++counter;
   } else {
     update();
   }
 }
 
-void Shop::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+void ShopIcon::mousePressEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event)
 
-  if (cost[map[towername]] >
+  if (shop->shopItemsMap[towername].cost >
       qgraphicsitem_cast<Statistic *>(parentItem())->money.getCurValue()) {
     event->setAccepted(false);
     return;
   }
 
-  if (counter < cdtime[map[towername]])
+  if (counter < shop->shopItemsMap[towername].cdtime)
     event->setAccepted(false);
   else
     counter = 0;
 }
 
-void Shop::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+void ShopIcon::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
   if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton))
           .length() < QApplication::startDragDistance())
     return;
@@ -92,6 +95,6 @@ void Shop::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
   drag->exec();
 }
 
-void Shop::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+void ShopIcon::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
   Q_UNUSED(event)
 }

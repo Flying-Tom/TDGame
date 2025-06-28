@@ -4,18 +4,30 @@
 
 #include <common.h>
 
-class Shop : public QGraphicsItem {
+class ShopItem {
 public:
-  int counter;
+  QString name;
+  int cost;
+  int cdtime;
+};
 
-  qreal aleft, atop, awidth, aheight;
+class Shop {
+public:
+  Shop(Game *game);
+  ~Shop() = default;
 
-  QString towername;
-  Shop(QString s, qreal left, qreal top, qreal width, qreal height);
-  static const QMap<QString, int> map;
-  static const QVector<QString> name;
-  static const QVector<int> cost;
-  static const QVector<int> cdtime;
+  QVector<ShopItem> shopItems;
+  QMap<QString, ShopItem> shopItemsMap;
+  QMap<QString, int> orderMap;
+};
+
+class ShopIcon : public QGraphicsItem {
+  Shop *shop;
+
+public:
+  ShopIcon(Shop *shop, QString s, qreal left, qreal top, qreal width,
+           qreal height);
+
   QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
@@ -23,6 +35,13 @@ public:
   void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
   void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
   void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+public:
+  int counter;
+
+  qreal aleft, atop, awidth, aheight;
+
+  QString towername;
 };
 
 #endif // INCLUDE_SHOP_H_

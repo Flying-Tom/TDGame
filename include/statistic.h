@@ -22,6 +22,7 @@ public:
 
 public:
   Game *game;
+  Shop *shop;
   GameValue<int> life;
   GameValue<int> money;
   GameValue<int> moneyAddCounter;

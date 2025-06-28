@@ -91,7 +91,7 @@ void FallenWarrior::advance(int phase) {
       if (deathCounter.getCurValue() < deathCounter.getMaxValue()) {
         deathCounter.changeCurValue(1);
       } else {
-        game->statistic.money.changeCurValue(money);
+        game->statistic->money.changeCurValue(money);
         delete this;
         return;
       }

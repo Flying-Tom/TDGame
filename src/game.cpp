@@ -1,5 +1,6 @@
 // Copyright 2022 Flying-Tom
 
+#include "shop.h"
 #include <enemy/blackwarrior.h>
 #include <enemy/cowardplane.h>
 #include <enemy/dragon.h>
@@ -13,8 +14,7 @@
 Game::Game(QMainWindow *parent, QString *mapConfig)
     : QGraphicsView(parent),
       // parent(parent),
-      scene(this), map(this, mapConfig), statistic(this), mapConfig(mapConfig),
-      BGMplayer(this) {
+      scene(this), shop(this), mapConfig(mapConfig), BGMplayer(this) {
   /* main UI of the game init */
   scene.setSceneRect(0, 0, GameMap::width + 320, GameMap::height);
   setFixedSize(GameMap::width + 320, GameMap::height);
@@ -26,10 +26,12 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
   setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
   setScene(&scene);
 
-  scene.addItem(&map);
-  scene.setBackgroundBrush(QPixmap::fromImage(map.mapImage));
+  map = new GameMap(this, mapConfig);
+  scene.addItem(map);
+  scene.setBackgroundBrush(QPixmap::fromImage(map->mapImage));
 
-  scene.addItem(&statistic);
+  statistic = new Statistic(this);
+  scene.addItem(statistic);
 
   FPSCounterTimer.start();
 
@@ -50,26 +52,28 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
   }
   probSum = std::accumulate(probEnemy.begin(), probEnemy.end(), 0);
 
-  enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new BlackWarrior(this, &map.walkingPath); });
-  enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new Dragon(this, &map.flyingPath); });
-  enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new RobotSoldier(this, &map.walkingPath); });
-  enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new Shaman(this, &map.walkingPath); });
-  enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new Spirit(this, &map.walkingPath); });
   enemyLambda.emplace_back([&](Enemy *&enemy) {
-    enemy = new FallenWarrior(this, &map.walkingPath);
+    enemy = new BlackWarrior(this, &map->walkingPath);
   });
   enemyLambda.emplace_back(
-      [&](Enemy *&enemy) { enemy = new Ghost(this, &map.walkingPath); });
+      [&](Enemy *&enemy) { enemy = new Dragon(this, &map->flyingPath); });
+  enemyLambda.emplace_back([&](Enemy *&enemy) {
+    enemy = new RobotSoldier(this, &map->walkingPath);
+  });
+  enemyLambda.emplace_back(
+      [&](Enemy *&enemy) { enemy = new Shaman(this, &map->walkingPath); });
+  enemyLambda.emplace_back(
+      [&](Enemy *&enemy) { enemy = new Spirit(this, &map->walkingPath); });
+  enemyLambda.emplace_back([&](Enemy *&enemy) {
+    enemy = new FallenWarrior(this, &map->walkingPath);
+  });
+  enemyLambda.emplace_back(
+      [&](Enemy *&enemy) { enemy = new Ghost(this, &map->walkingPath); });
 
   enemyLambda.emplace_back([&](Enemy *&enemy) {
     if (QRandomGenerator::global()->bounded(0, 15) < 15) {
       QList<QPointF> path;
-      path << map.flyingPath.first();
+      path << map->flyingPath.first();
       int pathLen = QRandomGenerator::global()->bounded(5, 15);
       while (pathLen--) {
         // path << Map::BlockToCoordinate(
@@ -78,14 +82,14 @@ Game::Game(QMainWindow *parent, QString *mapConfig)
         path << QPointF(QRandomGenerator::global()->bounded(0, 1280),
                         QRandomGenerator::global()->bounded(0, 960));
       }
-      path << map.flyingPath.last();
+      path << map->flyingPath.last();
       enemy = new CowardPlane(this, &path);
     } else {
-      enemy = new CowardPlane(this, &map.flyingPath);
+      enemy = new CowardPlane(this, &map->flyingPath);
     }
   });
 
-  statistic.enemyNum.setCurValue(0);
+  statistic->enemyNum.setCurValue(0);
   enemyWave(50);
 }
 
@@ -110,7 +114,7 @@ void Game::endThisGame(QString s) {
   } else if (s == QString("GameOver")) {
     advanceTimer.disconnect();
     spawnTimer.disconnect();
-    // map.disconnect();
+    // map->disconnect();
 
     QMessageBox message(QMessageBox::NoIcon, "Mission Failed", "Game Over😈");
     message.setWindowModality(Qt::NonModal);
@@ -127,7 +131,7 @@ void Game::updateGameSpeed() { advanceTimer.start(500 / gameSpeed); }
 bool Game::isPaused() const { return !advanceTimer.isActive(); }
 
 void Game::enemyWave(int maxNum) {
-  statistic.enemyNum.setMaxValue(maxNum);
+  statistic->enemyNum.setMaxValue(maxNum);
   startSpawn();
 }
 
@@ -135,7 +139,7 @@ void Game::spawnEnemy() {
   Enemy *enemy = nullptr;
   enemyLambda[randEnemyIndex()](enemy);
 
-  statistic.enemyNum.changeCurValue(1);
+  statistic->enemyNum.changeCurValue(1);
   scene.addItem(enemy);
 }
 
@@ -188,10 +192,10 @@ void Game::keyPressEvent(QKeyEvent *event) {
   case Qt::Key_F5:
     if (advanceTimer.isActive()) {
       advanceTimer.stop();
-      statistic.setEnabled(false);
+      statistic->setEnabled(false);
       scene.advance();
     } else {
-      statistic.setEnabled(true);
+      statistic->setEnabled(true);
       advanceTimer.start();
     }
     break;

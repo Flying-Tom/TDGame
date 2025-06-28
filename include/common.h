@@ -9,6 +9,8 @@ class Bullet;
 
 class GameMap;
 class InfoPanel;
+class Shop;
+class Statistic;
 class Game;
 class MainWindow;
 

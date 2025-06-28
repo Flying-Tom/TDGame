@@ -2,13 +2,14 @@
 
 #include <enemy/enemy.h>
 #include <game.h>
+#include <qglobal.h>
 #include <shop.h>
 #include <statistic.h>
 
 int Statistic::frameCount = 0;
 
 Statistic::Statistic(Game *game)
-    : game(game), shopBackground(":images/shop.png"),
+    : game(game), shop(&game->shop), shopBackground(":images/shop.png"),
       lifeIcon(":images/life.png"), coinIcon(":images/coin.png") {
   setAcceptDrops(false);
   life = GameValue<int>(50, 100);
@@ -18,8 +19,9 @@ Statistic::Statistic(Game *game)
 
   int shopXoffset = 1300, shopYoffset = 160;
   int shopItemInterval = 96;
-  for (int i = 0; i < 8; i++) {
-    Shop *icon = nullptr;
+
+  for (int i = 0; i < shop->shopItems.size(); ++i) {
+    ShopIcon *icon = nullptr;
     int shopItemX = 64, shopItemY = 64;
     if (i == 0 || i == 1) {
       // no square icon
@@ -29,7 +31,8 @@ Statistic::Statistic(Game *game)
       // extra offset
       shopYoffset += 20;
     }
-    icon = new Shop(Shop::name[i], 0, 0, shopItemX, shopItemY);
+    icon =
+        new ShopIcon(shop, shop->shopItems[i].name, 0, 0, shopItemX, shopItemY);
     icon->setParentItem(this);
     icon->setPos(shopXoffset, shopYoffset + shopItemInterval * i);
   }

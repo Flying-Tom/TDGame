@@ -1,11 +1,12 @@
 // Copyright 2022 Flying-Tom
 
-#include <enemy/enemy.h>
 #include <game.h>
 #include <gameitem.h>
 #include <gamemap.h>
 #include <shop.h>
 #include <statistic.h>
+
+#include <enemy/enemy.h>
 #include <tower/bomb.h>
 #include <tower/campfire.h>
 #include <tower/guntower.h>
@@ -28,7 +29,7 @@ template <typename Val> Val bounded(Val minx, Val x, Val maxx) {
 }
 
 GameMap::GameMap(Game *game, QString *mapConfig)
-    : game(game), mapConfig(mapConfig),
+    : game(game), shop(&game->shop), mapConfig(mapConfig),
       destinationMovie(":/images/startbutton.gif"), towerShadow(nullptr) {
   setAcceptDrops(true);
 
@@ -262,7 +263,7 @@ void GameMap::addTower(QString s, QPointF pos) {
     pos = BlockToCoordinate(block);
 
     Tower *tower = nullptr;
-    switch (Shop::map[s]) {
+    switch (shop->orderMap[s]) {
     case 0:
       tower = new GunTower(this);
       break;
@@ -299,8 +300,8 @@ void GameMap::addTower(QString s, QPointF pos) {
       return;
     }
 
-    if (game->statistic.money.getCurValue() >= Shop::cost[Shop::map[s]]) {
-      game->statistic.money.changeCurValue(-Shop::cost[Shop::map[s]]);
+    if (game->statistic->money.getCurValue() >= shop->shopItemsMap[s].cost) {
+      game->statistic->money.changeCurValue(-shop->shopItemsMap[s].cost);
     } else {
       delete tower;
       return;
@@ -326,7 +327,7 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
   if (IsOccupied(block) == false) {
     pos = BlockToCoordinate(block);
     if (towerShadow == nullptr) {
-      switch (Shop::map[s]) {
+      switch (shop->orderMap[s]) {
       case 0:
         towerShadow = new GunTower(nullptr);
         break;
@@ -343,16 +344,16 @@ void GameMap::addTowerShadow(QString s, QPointF pos) {
         towerShadow = new MissileTower(nullptr);
         break;
       case 5:
-        towerShadow = new SawTooth(this);
+        towerShadow = new SawTooth(nullptr);
         break;
       case 6:
-        towerShadow = new CampFire(this);
+        towerShadow = new CampFire(nullptr);
         break;
       case 7:
-        towerShadow = new Shield(this);
+        towerShadow = new Shield(nullptr);
         break;
       default:
-        qDebug() << Shop::map[s];
+        qDebug() << s;
         assert(false);
         break;
       }
@@ -375,8 +376,8 @@ void GameMap::removeTower(QPointF pos) {
     return;
   Tower *t = Tower::castItem(ItemOccupied(block));
   if (t != nullptr) {
-    game->statistic.money.changeCurValue(Shop::cost[Shop::map[t->getName()]] /
-                                         2);
+    game->statistic->money.changeCurValue(
+        shop->shopItemsMap[t->getName()].cost / 2);
   }
   Destory(block);
 }

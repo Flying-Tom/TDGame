@@ -26,6 +26,7 @@ public:
 
 public:
   Game *game;
+  Shop *shop;
   QString *mapConfig;
   QImage mapImage;
   QList<QPoint> road;

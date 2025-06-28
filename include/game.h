@@ -2,6 +2,7 @@
 #ifndef INCLUDE_GAME_H_
 #define INCLUDE_GAME_H_
 
+#include "shop.h"
 #include <common.h>
 #include <gamemap.h>
 #include <statistic.h>
@@ -28,8 +29,9 @@ public:
 public:
   QMainWindow *parent;
   QGraphicsScene scene;
-  GameMap map;
-  Statistic statistic;
+  GameMap *map;
+  Statistic *statistic;
+  Shop shop;
   QString *mapConfig;
   QElapsedTimer FPSCounterTimer;
 
