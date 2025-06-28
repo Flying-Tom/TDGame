@@ -37,13 +37,10 @@ QPainterPath Shaman::shape() const {
 void Shaman::aquireTarget() {
   for (QGraphicsItem *item : atkArea->collidingItems()) {
     Enemy *e = Enemy::castItem(item);
-    if (e != nullptr) {
-      if (e->HP.getMaxValue() == e->HP.getCurValue()) {
-        continue;
-      } else {
-        atkTarget = e;
-        break;
-      }
+    if (e != nullptr && !e->getIsDead() &&
+        e->HP.getCurValue() < e->HP.getMaxValue()) {
+      atkTarget = e;
+      break;
     }
   }
 
@@ -65,7 +62,8 @@ void Shaman::attack() {
     if (atkTarget != this) {
       speed.setCurValue(atkTarget->speed.getCurValue());
       Enemy *e = Enemy::castItem(atkTarget.data());
-      if (e != nullptr) {
+      // follow the target
+      if (e != nullptr && !e->getIsDead()) {
         isStopped = e->getIsStopped();
       }
     }

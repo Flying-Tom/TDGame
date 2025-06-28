@@ -11,8 +11,8 @@ Statistic::Statistic(Game *game)
     : game(game), shopBackground(":images/shop.png"),
       lifeIcon(":images/life.png"), coinIcon(":images/coin.png") {
   setAcceptDrops(false);
-  life = GameValue<int>(20, 50);
-  money = GameValue<int>(1000000, 1000000);
+  life = GameValue<int>(50, 100);
+  money = GameValue<int>(1000000, 5000000);
   moneyAddCounter = GameValue<int>(500, 500);
   FPS = 0;
 

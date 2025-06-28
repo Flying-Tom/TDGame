@@ -30,7 +30,7 @@ void GunBullet::advance(int phase) {
     if (!items.empty()) {
       for (QGraphicsItem *item : items) {
         Enemy *e = Enemy::castItem(item);
-        if (e != nullptr) {
+        if (e != nullptr && !e->getIsDead()) {
           e->HP.changeCurValue(-atk);
           e->underAtk = true;
           delete this;

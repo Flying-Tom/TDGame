@@ -5,16 +5,13 @@
 #include <enemy/enemy.h>
 
 LaserTower::LaserTower(GameMap *map)
-    : Tower(map, "lasertower", GameValue<qreal>(20, 20), RANGE, 256) {
+    : Tower(map, "lasertower", GameValue<qreal>(20, 20), RANGE, 512) {
   trajectory = nullptr;
 
   image = QImage(":images/lasertower.png");
 }
 
-LaserTower::~LaserTower() {
-  if (trajectory)
-    delete trajectory;
-}
+LaserTower::~LaserTower() { delete trajectory; }
 
 QRectF LaserTower::boundingRect() const { return rectangularModel; }
 

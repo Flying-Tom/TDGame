@@ -46,14 +46,17 @@ void Bomb::advance(int phase) {
 void Bomb::bombing() {
   for (QGraphicsItem *item : atkArea->collidingItems()) {
     Enemy *e = Enemy::castItem(item);
-    if (e != nullptr && e->getMoveType() == EnemyMoveType::WALKING) {
+    if (e != nullptr && !e->getIsDead() &&
+        e->getMoveType() == EnemyMoveType::WALKING) {
       e->HP.setCurValue(0);
       return;
     }
 
     Tower *t = Tower::castItem(item);
-    if (t != nullptr && t->getAtkType() == TowerAtkType::MELEE) {
+    if (t != nullptr && !t->getIsDead() &&
+        t->getAtkType() == TowerAtkType::MELEE) {
       e->HP.setCurValue(0);
+      return;
       // QString eName = e->getName();
       // if (eName == "bomb" || eName == "repeller") {
       //   e->HP.setCurValue(0);

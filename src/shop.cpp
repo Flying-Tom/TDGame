@@ -11,7 +11,7 @@ const QVector<QString> Shop::name = {
     "guntower",     "lasertower", "repeller", "bomb",
     "missiletower", "sawtooth",   "campfire", "shield",
 };
-const QVector<int> Shop::cost = {1000, 2000, 500, 500, 5000, 5000, 2000, 1000};
+const QVector<int> Shop::cost = {1000, 8000, 500, 500, 6000, 5000, 2000, 1000};
 const QVector<int> Shop::cdtime = {30, 40, 50, 3, 3, 5, 20, 20};
 
 Shop::Shop(QString s, qreal left, qreal top, qreal width, qreal height) {

@@ -31,7 +31,8 @@ void SawTooth::advance(int phase) {
     if (!items.empty()) {
       for (QGraphicsItem *item : items) {
         Enemy *e = Enemy::castItem(item);
-        if (e != nullptr && e->getMoveType() == EnemyMoveType::WALKING) {
+        if (e != nullptr && !e->getIsDead() &&
+            e->getMoveType() == EnemyMoveType::WALKING) {
           e->HP.changeCurValue(-0.5);
           e->underAtk = true;
         }

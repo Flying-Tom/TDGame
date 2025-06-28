@@ -16,7 +16,8 @@ Laser::~Laser() {
   t->setTrajectory(nullptr);
 }
 
-QRectF Laser::boundingRect() const { return QRectF(-32, -220, 64, 256); }
+// QRectF Laser::boundingRect() const { return QRectF(-32, -220, 64, 256); }
+QRectF Laser::boundingRect() const { return QRectF(-32, -460, 64, 512); }
 
 void Laser::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                   QWidget *widget) {
@@ -32,7 +33,7 @@ void Laser::advance(int phase) {
     bool selfdestroy = true;
     for (QGraphicsItem *item : collidingItems()) {
       Enemy *e = Enemy::castItem(item);
-      if (e != nullptr) {
+      if (e != nullptr && !e->getIsDead()) {
         e->HP.changeCurValue(-atk);
         e->underAtk = true;
         if (e->HP.getCurValue() > 0) {
