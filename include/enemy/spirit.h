@@ -6,7 +6,7 @@
 
 class Spirit : public Enemy {
 public:
-  Spirit(Game *game, QList<QPointF> *path);
+  explicit Spirit(Game *game, QList<QPointF> *path);
 
   QRectF boundingRect() const override;
   QPainterPath shape() const override;

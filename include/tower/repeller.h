@@ -9,6 +9,8 @@ public:
   explicit Repeller(GameMap *map);
   ~Repeller();
   void advance(int phase) override;
+
+  QString name = "repeller";
 };
 
 #endif // INCLUDE_TOWER_REPELLER_H_

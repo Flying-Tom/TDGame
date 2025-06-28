@@ -11,6 +11,8 @@ public:
   ~GunTower();
   QRectF boundingRect() const override;
 
+  QString name = "guntower";
+
 public:
   void attack() override;
 };

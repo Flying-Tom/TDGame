@@ -6,7 +6,7 @@
 
 class FallenWarrior : public Enemy {
 public:
-  FallenWarrior(Game *game, QList<QPointF> *path);
+  explicit FallenWarrior(Game *game, QList<QPointF> *path);
 
   QRectF boundingRect() const override;
   QPainterPath shape() const override;

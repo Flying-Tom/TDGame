@@ -5,8 +5,7 @@
 #include <enemy/enemy.h>
 
 SawTooth::SawTooth(GameMap *map)
-    : Tower(map, "sawtooth", GameValue<qreal>(500, 500), MELEE, 0,
-            GameValue<int>(0, 0)) {
+    : Tower(map, GameValue<qreal>(500, 500), MELEE, 0, GameValue<int>(0, 0)) {
   image = QImage(":images/sawtooth.png");
   angle = 0;
 }

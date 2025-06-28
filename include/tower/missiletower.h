@@ -10,6 +10,7 @@ public:
   explicit MissileTower(GameMap *map);
   ~MissileTower();
 
+  QString name = "missiletower";
   void aquireTarget() override;
   void attack() override;
 };

@@ -9,14 +9,15 @@ class Tower : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
 public:
-  Tower(GameMap *map, QString name = QString(),
-        GameValue<qreal> HP = GameValue<qreal>(), int atkType = RANGE,
-        qreal atkRadius = 0, GameValue<int> blockNumber = GameValue<int>(0, 3),
-        GameValue<int> aquireCounter = GameValue<int>(0, 5));
-  ~Tower();
+  explicit Tower(GameMap *map, GameValue<qreal> HP = GameValue<qreal>(),
+                 int atkType = RANGE, qreal atkRadius = 0,
+                 GameValue<int> blockNumber = GameValue<int>(0, 3),
+                 GameValue<int> aquireCounter = GameValue<int>(0, 5));
+  virtual ~Tower();
 
-  int type() const override;
   enum { Type = GameItemType::TOWER };
+  int type() const override;
+
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;

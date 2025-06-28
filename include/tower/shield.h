@@ -8,9 +8,12 @@ class Shield : public Tower {
 public:
   explicit Shield(GameMap *map);
   ~Shield();
+
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;
+
+  QString name = "shield";
 };
 
 #endif // INCLUDE_TOWER_SHIELD_H_

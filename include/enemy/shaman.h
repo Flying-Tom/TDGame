@@ -6,7 +6,7 @@
 
 class Shaman : public Enemy {
 public:
-  Shaman(Game *game, QList<QPointF> *path);
+  explicit Shaman(Game *game, QList<QPointF> *path);
 
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;

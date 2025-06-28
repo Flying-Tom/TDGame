@@ -11,6 +11,8 @@ public:
   void advance(int phase) override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
+
+  QString name = "sawtooth";
   int angle;
 };
 

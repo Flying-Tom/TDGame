@@ -9,6 +9,7 @@ GunBullet::GunBullet(qreal atk) {
   image = QImage(":images/gunbullet.png");
   speed = 10;
 }
+GunBullet::~GunBullet() {}
 
 QRectF GunBullet::boundingRect() const { return QRectF(-6, -6, 12, 12); }
 

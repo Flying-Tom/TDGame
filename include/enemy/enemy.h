@@ -9,15 +9,16 @@ class Enemy : public GameItem {
   Q_INTERFACES(QGraphicsItem)
 
 public:
-  Enemy(Game *game, QList<QPointF> *path, int money = 0,
-        GameValue<qreal> HP = GameValue<qreal>(),
-        GameValue<qreal> atk = GameValue<qreal>(),
-        GameValue<qreal> speed = GameValue<qreal>(), int moveType = WALKING,
-        qreal atkRadius = 0);
-  ~Enemy();
+  explicit Enemy(Game *game, QList<QPointF> *path, int money = 0,
+                 GameValue<qreal> HP = GameValue<qreal>(),
+                 GameValue<qreal> atk = GameValue<qreal>(),
+                 GameValue<qreal> speed = GameValue<qreal>(),
+                 int moveType = WALKING, qreal atkRadius = 0);
+  virtual ~Enemy();
 
   enum { Type = GameItemType::ENEMY };
   int type() const override;
+
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   void advance(int phase) override;

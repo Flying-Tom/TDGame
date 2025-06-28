@@ -5,7 +5,7 @@
 #include <enemy/enemy.h>
 
 Bomb::Bomb(GameMap *map)
-    : Tower(map, "bomb", GameValue<qreal>(8, 8), MELEE, 256,
+    : Tower(map, GameValue<qreal>(8, 8), MELEE, 256,
             GameValue<int>(0, 20)),
       movie(":images/bomb.gif") {
   image = QImage(":images/bomb.png");

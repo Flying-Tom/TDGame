@@ -7,7 +7,7 @@
 
 class Dragon : public Enemy {
 public:
-  Dragon(Game *game, QList<QPointF> *path);
+  explicit Dragon(Game *game, QList<QPointF> *path);
   ~Dragon();
 
   QRectF boundingRect() const override;

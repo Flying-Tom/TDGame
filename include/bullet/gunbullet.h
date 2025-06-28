@@ -7,6 +7,7 @@
 class GunBullet : public Bullet {
 public:
   explicit GunBullet(qreal atk);
+  ~GunBullet() override;
 
   QRectF boundingRect() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

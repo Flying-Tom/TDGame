@@ -3,8 +3,8 @@
 #include <tower/shield.h>
 
 Shield::Shield(GameMap *map)
-    : Tower(map, "shield", GameValue<qreal>(100, 100), RANGE, 200,
-            GameValue<int>(0, 5), GameValue<int>(0, 175)) {
+    : Tower(map, GameValue<qreal>(100, 100), RANGE, 200, GameValue<int>(0, 5),
+            GameValue<int>(0, 175)) {
   image = QImage(":images/shield.png");
   HPMeter->setBrush(QBrush(Qt::yellow));
   setZValue(5);

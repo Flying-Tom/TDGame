@@ -5,8 +5,8 @@
 #include <enemy/enemy.h>
 
 MissileTower::MissileTower(GameMap *map)
-    : Tower(map, "missiletower", GameValue<qreal>(5, 5), RANGE, 2048,
-            GameValue<int>(0, 5), GameValue<int>(0, 175)) {
+    : Tower(map, GameValue<qreal>(5, 5), RANGE, 2048, GameValue<int>(0, 5),
+            GameValue<int>(0, 175)) {
   image = QImage(":images/missiletower.png");
 }
 

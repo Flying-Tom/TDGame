@@ -5,6 +5,7 @@
 #include <game.h>
 
 Bullet::Bullet() : QObject(), QGraphicsItem() {}
+Bullet::~Bullet() {}
 
 QRectF Bullet::boundingRect() const { return QRectF(-8, -8, 16, 16); }
 

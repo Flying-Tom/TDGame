@@ -9,11 +9,13 @@ class Bomb : public Tower {
 public:
   explicit Bomb(GameMap *map);
   ~Bomb();
+
   void advance(int phase) override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
-  void bombing();
 
+  QString name = "bomb";
+  void bombing();
 
 protected:
   QMovie movie;

@@ -6,8 +6,8 @@
 
 class Missile : public Bullet {
 public:
-  Missile(QPointer<GameItem> atkTarget, qreal atk);
-  ~Missile();
+  explicit Missile(QPointer<GameItem> atkTarget, qreal atk);
+  ~Missile() override;
 
   QRectF boundingRect() const override;
   QPainterPath shape() const override;

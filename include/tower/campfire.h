@@ -8,12 +8,14 @@ class CampFire : public Tower {
 public:
   explicit CampFire(GameMap *map);
   ~CampFire();
+
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
   int angle;
   void aquireTarget() override;
   void advance(int phase) override;
 
+  QString name = "campfire";
   QMovie movie;
 };
 

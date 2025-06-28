@@ -7,8 +7,10 @@
 class Bullet : public QObject, public QGraphicsItem {
   Q_OBJECT
   Q_INTERFACES(QGraphicsItem)
+
 public:
-  Bullet();
+  explicit Bullet();
+  virtual ~Bullet();
 
   enum { Type = GameItemType::BULLET };
   int type() const override;

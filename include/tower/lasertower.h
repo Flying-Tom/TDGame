@@ -12,8 +12,8 @@ public:
   ~LaserTower();
   QRectF boundingRect() const override;
 
+  QString name = "lasertower";
   void attack() override;
-
   Laser *getTrajectory() const;
   void setTrajectory(Laser *newTrajectory);
 

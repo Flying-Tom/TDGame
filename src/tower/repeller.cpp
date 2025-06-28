@@ -5,7 +5,7 @@
 #include <enemy/enemy.h>
 
 Repeller::Repeller(GameMap *map)
-    : Tower(map, "repeller", GameValue<qreal>(6000, 6000), MELEE, 50,
+    : Tower(map, GameValue<qreal>(6000, 6000), MELEE, 50,
             GameValue<int>(0, 3)) {
   image = QImage(":images/repeller.png");
 }

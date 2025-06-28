@@ -7,7 +7,8 @@
 
 class CowardPlane : public Enemy {
 public:
-  CowardPlane(Game *game, QList<QPointF> *path);
+  explicit CowardPlane(Game *game, QList<QPointF> *path);
+
   QPainterPath shape() const override;
   void advance(int phase) override;
 };

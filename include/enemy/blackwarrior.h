@@ -7,7 +7,7 @@
 
 class BlackWarrior : public Enemy {
 public:
-  BlackWarrior(Game *game, QList<QPointF> *path);
+  explicit BlackWarrior(Game *game, QList<QPointF> *path);
 
   QPainterPath shape() const override;
 };

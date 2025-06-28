@@ -4,15 +4,13 @@
 
 #include <enemy/enemy.h>
 
-Tower::Tower(GameMap *map, QString name, GameValue<qreal> HP, int atkType,
-             qreal atkRadius, GameValue<int> blockNumber,
-             GameValue<int> aquireCounter)
+Tower::Tower(GameMap *map, GameValue<qreal> HP, int atkType, qreal atkRadius,
+             GameValue<int> blockNumber, GameValue<int> aquireCounter)
     : map(map), atkType(atkType), infopanel(this) {
   GameItem::HP = HP;
   GameItem::atkRadius = atkRadius;
   GameItem::blockNumber = blockNumber;
   GameItem::aquireCounter = aquireCounter;
-  GameItem::name = name;
 
   atkArea->setRect(-atkRadius, -atkRadius, atkRadius * 2, atkRadius * 2);
   HPMeter->setBrush(QBrush(QColor(QColor(0, 249, 0))));
@@ -72,11 +70,7 @@ void Tower::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
   infopanel.show();
 }
 
-int Tower::type() const {
-  if (map == nullptr)
-    return Type + 114;
-  return Type;
-}
+int Tower::type() const { return Type; }
 
 QImage Tower::getImage() const { return image; }
 

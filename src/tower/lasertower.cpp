@@ -5,7 +5,7 @@
 #include <enemy/enemy.h>
 
 LaserTower::LaserTower(GameMap *map)
-    : Tower(map, "lasertower", GameValue<qreal>(20, 20), RANGE, 512) {
+    : Tower(map, GameValue<qreal>(20, 20), RANGE, 512) {
   trajectory = nullptr;
 
   image = QImage(":images/lasertower.png");

@@ -6,7 +6,7 @@
 #include <enemy/enemy.h>
 
 GunTower::GunTower(GameMap *map)
-    : Tower(map, "guntower", GameValue<qreal>(20, 20), RANGE, 400) {
+    : Tower(map, GameValue<qreal>(20, 20), RANGE, 400) {
   image = QImage(":images/guntower.png");
   atkTarget = nullptr;
 }

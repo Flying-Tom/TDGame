@@ -5,6 +5,23 @@
 #include <common.h>
 #include <qgraphicsitem.h>
 
+enum GameItemType {
+  BARE = QGraphicsItem::UserType + 256,
+  ENEMY,
+  TOWER,
+  BULLET,
+};
+
+enum EnemyMoveType {
+  WALKING = 0,
+  FLYING = 1,
+};
+
+enum TowerAtkType {
+  MELEE = 0,
+  RANGE = 1,
+};
+
 class GameItem : public QGraphicsObject {
 public:
   GameItem();
@@ -12,8 +29,12 @@ public:
 
 public:
   QRectF boundingRect() const override;
+
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
   virtual void aquireTarget() = 0;
   virtual void attack() = 0;
 
@@ -26,19 +47,6 @@ public:
   const QString &getName() const;
   void setName(const QString &newName);
 
-  void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-  void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-
-protected:
-  QString name;
-
-  int money;
-  qreal atkRadius;
-  bool isDead;
-
-  QPointer<GameItem> atkTarget;
-
-public:
   GameValue<qreal> HP;
   GameValue<qreal> atk;
   GameValue<qreal> speed;
@@ -49,30 +57,18 @@ public:
   bool underAtk;
   GameValue<int> blinkCounter;
 
-public:
   bool isTower();
   bool isEnemy();
   bool isBullet();
 
+protected:
+  QString name;
 
+  int money;
+  qreal atkRadius;
+  bool isDead;
 
-
-};
-
-enum GameItemType {
-  ENEMY = QGraphicsItem::UserType + 2,
-  TOWER = QGraphicsItem::UserType + 3,
-  BULLET = QGraphicsItem::UserType + 4,
-};
-
-enum EnemyMoveType {
-  WALKING = 0,
-  FLYING = 1,
-};
-
-enum TowerAtkType {
-  MELEE = 0,
-  RANGE = 1,
+  QPointer<GameItem> atkTarget;
 };
 
 #endif // INCLUDE_GAMEITEM_H_

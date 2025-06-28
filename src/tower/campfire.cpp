@@ -6,8 +6,8 @@
 #include <enemy/enemy.h>
 
 CampFire::CampFire(GameMap *map)
-    : Tower(map, "campfire", GameValue<qreal>(10, 10), RANGE, 250,
-            GameValue<int>(0, 3), GameValue<int>(0, 500)),
+    : Tower(map, GameValue<qreal>(10, 10), RANGE, 250, GameValue<int>(0, 3),
+            GameValue<int>(0, 500)),
       movie(":images/campfire.gif") {
   image = QImage(":images/campfire.png");
   movie.start();
