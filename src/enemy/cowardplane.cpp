@@ -24,7 +24,7 @@ QPainterPath CowardPlane::shape() const {
 
 void CowardPlane::advance(int phase) {
   if (!phase) {
-    if (HP.getCurValue() == 0) {
+    if (HP.getCurValue() <= 0) {
       isDead = true;
       speed.setCurValue(0);
 

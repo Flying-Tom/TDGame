@@ -17,7 +17,7 @@ QRectF LaserTower::boundingRect() const { return rectangularModel; }
 
 void LaserTower::attack() {
   if (trajectory == nullptr) {
-    trajectory = new Laser(this, 1);
+    trajectory = new Laser(this, 0.5);
     scene()->addItem(trajectory);
   }
 

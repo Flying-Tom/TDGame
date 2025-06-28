@@ -149,7 +149,7 @@ int Enemy::getpointIndex() { return pointIndex; }
 
 void Enemy::advance(int phase) {
   if (!phase) {
-    if (HP.getCurValue() == 0) {
+    if (HP.getCurValue() <= 0) {
       isDead = true;
       speed.setCurValue(0);
       game->statistic->money.changeCurValue(money);

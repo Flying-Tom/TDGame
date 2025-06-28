@@ -46,7 +46,7 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Tower::advance(int phase) {
   if (!phase) {
     if (map) {
-      if (HP.getCurValue() == 0) {
+      if (HP.getCurValue() <= 0) {
         isDead = true;
         delete this;
         return;
